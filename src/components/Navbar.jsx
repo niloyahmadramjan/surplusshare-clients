@@ -7,7 +7,7 @@ import Logo from "./Logo";
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 //   const { user, logout } = useAuthUser();
-const user = "niloy";
+const user = null;
 const logout = null;
 
   const navItems = [
