@@ -10,7 +10,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* Provide React Query to the app */}
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <div className="bg-gray-200">
+        <RouterProvider router={router} />
+      </div>
     </QueryClientProvider>
   </StrictMode>
 );
