@@ -5,6 +5,9 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../services/authService";
 import { AuthContext } from "./AuthContext";
@@ -24,6 +27,22 @@ const AuthProvider = ({ children }) => {
     setLoader(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+
+  const googleProvider = new GoogleAuthProvider();
+const githubProvider = new GithubAuthProvider();
+
+// ✅ Google Login Popup
+const handleGoogleLogin = () => {
+  setLoader(true);
+  return signInWithPopup(auth, googleProvider);
+};
+
+// ✅ GitHub Login Popup
+const handleGithubLogin = () => {
+  setLoader(true);
+  return signInWithPopup(auth, githubProvider);
+};
+
 
   // update user profile 
   const updateUserProfile = (name,imgURL)=>{
@@ -53,6 +72,8 @@ const AuthProvider = ({ children }) => {
     setLoader,
     signUpUserWithEmailPass,
     updateUserProfile,
+    handleGoogleLogin,
+    handleGithubLogin,
     handleSignInEmailPass,
     handleLogOut,
   };

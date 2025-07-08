@@ -3,26 +3,82 @@ import Lottie from "lottie-react";
 import loginAnimation from "../../assets/lottieanimation/foodanimation.json";
 import { Github, LogIn } from "lucide-react";
 import { Link } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   const {
+    handleSignInEmailPass,
+    handleGithubLogin,
+    handleGoogleLogin,
+    setLoader,
+  } = useAuth();
+  const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  
 
   const onLoginSubmit = (data) => {
-    // handle login logic with data.email and data.password
-    console.log(data);
+    handleSignInEmailPass(data.email, data.password)
+      .then((result) => {
+        reset()
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const handleGoogleLogin = () => {
-    // trigger Google login
+  // ✅ Google Login with Popup
+  const OnSubmitHandleGoogleLogin = async () => {
+    setLoader(true);
+    try {
+      const result = await handleGoogleLogin();
+      const loggedInUser = result.user;
+      console.log(loggedInUser);
+
+
+      // ✅ You can send user info to your server here
+      // await axios.post("https://your-api.com/users", {
+      //   name: loggedInUser.displayName,
+      //   email: loggedInUser.email,
+      //   photoURL: loggedInUser.photoURL,
+      //   role: "user"
+      // });
+
+      return result;
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      throw error;
+    } finally {
+      setLoader(false);
+    }
   };
 
-  const handleGithubLogin = () => {
-    // trigger GitHub login
+  // ✅ GitHub Login with Popup
+  const OnSubmitHandleGithubLogin = async () => {
+    setLoader(true);
+    try {
+      const result = await handleGithubLogin();
+      const loggedInUser = result.user;
+      console.log(loggedInUser);
+
+      // ✅ You can send user info to your server here
+      // await axios.post("https://your-api.com/users", {
+      //   name: loggedInUser.displayName,
+      //   email: loggedInUser.email,
+      //   photoURL: loggedInUser.photoURL,
+      //   role: "user"
+      // });
+
+      return result;
+    } catch (error) {
+      console.error("GitHub Login Error:", error);
+      throw error;
+    } finally {
+      setLoader(false);
+    }
   };
 
   return (
@@ -32,7 +88,7 @@ const Login = () => {
         {/* Top Logo + Heading */}
         <div className="mb-8 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-             <h1 className="text-3xl">Login your Account</h1>
+            <h1 className="text-3xl">Login your Account</h1>
           </div>
           <p className="text-base-content/70 text-sm">
             Welcome back! Please log in to continue reducing food waste 💚
@@ -109,7 +165,7 @@ const Login = () => {
         {/* Social Logins */}
         <div className="flex flex-col gap-3">
           <button
-            onClick={handleGoogleLogin}
+            onClick={OnSubmitHandleGoogleLogin}
             className="btn btn-outline btn-accent hover:text-secondary w-full flex items-center justify-center gap-2"
           >
             <img
@@ -121,7 +177,7 @@ const Login = () => {
           </button>
 
           <button
-            onClick={handleGithubLogin}
+            onClick={OnSubmitHandleGithubLogin}
             className="btn btn-outline btn-accent hover:text-secondary w-full flex items-center justify-center gap-2"
           >
             <Github className="h-5 w-5" />

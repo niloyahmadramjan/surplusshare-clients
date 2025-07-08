@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
-  const { signUpUserWithEmailPass } = useAuth();
+  const { signUpUserWithEmailPass,handleGithubLogin,handleGoogleLogin,setLoader } = useAuth();
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const {
@@ -91,13 +91,56 @@ const Register = () => {
     // }
   };
 
-  const handleGoogleLogin = () => {
-    // Google login logic
-  };
 
-  const handleGithubLogin = () => {
-    // GitHub login logic
-  };
+// ✅ Google Login with Popup
+const OnSubmitHandleGoogleLogin = async () => {
+  setLoader(true);
+  try {
+    const result = await handleGoogleLogin();
+    const loggedInUser = result.user;
+    console.log(loggedInUser)
+
+    // ✅ You can send user info to your server here
+    // await axios.post("https://your-api.com/users", {
+    //   name: loggedInUser.displayName,
+    //   email: loggedInUser.email,
+    //   photoURL: loggedInUser.photoURL,
+    //   role: "user"
+    // });
+
+    return result;
+  } catch (error) {
+    console.error("Google Login Error:", error);
+    throw error;
+  } finally {
+    setLoader(false);
+  }
+};
+
+// ✅ GitHub Login with Popup
+const OnSubmitHandleGithubLogin = async () => {
+  setLoader(true);
+  try {
+    const result = await handleGithubLogin();
+    const loggedInUser = result.user;
+    console.log(loggedInUser)
+
+    // ✅ You can send user info to your server here
+    // await axios.post("https://your-api.com/users", {
+    //   name: loggedInUser.displayName,
+    //   email: loggedInUser.email,
+    //   photoURL: loggedInUser.photoURL,
+    //   role: "user"
+    // });
+
+    return result;
+  } catch (error) {
+    console.error("GitHub Login Error:", error);
+    throw error;
+  } finally {
+    setLoader(false);
+  }
+};
 
   return (
     <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-base-100">
@@ -235,7 +278,7 @@ const Register = () => {
         {/* Social Logins */}
         <div className="flex flex-col gap-3">
           <button
-            onClick={handleGoogleLogin}
+            onClick={OnSubmitHandleGoogleLogin}
             className="btn btn-outline btn-accent w-full flex items-center justify-center gap-2"
           >
             <img
@@ -247,7 +290,7 @@ const Register = () => {
           </button>
 
           <button
-            onClick={handleGithubLogin}
+            onClick={OnSubmitHandleGithubLogin}
             className="btn btn-outline btn-accent w-full flex items-center justify-center gap-2"
           >
             <Github className="h-5 w-5" />
