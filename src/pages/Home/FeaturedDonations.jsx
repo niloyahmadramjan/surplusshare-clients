@@ -62,7 +62,7 @@ const FeaturedDonations = () => {
   };
 
   return (
-    <section className="py-16 bg-base-100">
+    <section className="py-16">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Heading */}
         <div className="text-center mb-12">
