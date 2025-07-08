@@ -9,7 +9,7 @@ const Logo = () => {
         <div className="bg-primary p-2 rounded-lg">
           <Leaf className="h-5 w-5 text-secondary" />
         </div>
-        <span className="text-xl font-bold text-secondary">SurplusShare</span>
+        <span className="text-xl font-bold text-accent">SurplusShare</span>
       </Link>
     </div>
   );
