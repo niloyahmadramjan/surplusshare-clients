@@ -2,13 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { Menu } from "lucide-react";
 import Logo from "./Logo";
+import useAuth from "../hooks/useAuth";
 // import { useAuthUser } from "@/hooks/useAuthUser";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-//   const { user, logout } = useAuthUser();
-const user = null;
-const logout = null;
+  const {user,handleLogOut,loader} = useAuth();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -27,7 +26,7 @@ const logout = null;
 
         {/* Right: Mobile Drawer Trigger (only on mobile) */}
         <div className="md:hidden flex-none">
-          {!user ? (
+          {loader? <span className="loading loading-bars loading-xs"></span> : !user ? (
             <button
               onClick={() => setIsDrawerOpen(true)}
               className="btn btn-ghost"
@@ -55,8 +54,8 @@ const logout = null;
             </Link>
           ))}
 
-          {!user ? (
-            <Link to="/login" className="btn btn-outline btn-primary btn-sm">
+          {loader? <span className="loading loading-bars loading-xs"></span>: !user ? (
+            <Link to="/login" className="btn btn-outline btn-accent btn-sm px-5">
               Login
             </Link>
           ) : (
@@ -77,7 +76,7 @@ const logout = null;
                   <Link to="/dashboard">Dashboard</Link>
                 </li>
                 <li>
-                  <button onClick={logout}>Logout</button>
+                  <button onClick={handleLogOut}>Logout</button>
                 </li>
               </ul>
             </div>
@@ -113,7 +112,7 @@ const logout = null;
               </Link>
             ))}
 
-            {user ? (
+            {loader? <span className="loading loading-bars loading-xs"></span>: user ? (
               <div className="mt-2 ">
                 <Link
                   to="/dashboard/profile"
@@ -131,7 +130,7 @@ const logout = null;
                 </Link>
                 <button
                   onClick={() => {
-                    logout();
+                    handleLogOut();
                     setIsDrawerOpen(false);
                   }}
                   className="btn btn-sm btn-error w-full"

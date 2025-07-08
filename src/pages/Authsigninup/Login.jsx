@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/lottieanimation/foodanimation.json";
 import { Github, LogIn } from "lucide-react";
-import Logo from "../../components/Logo";
 import { Link } from "react-router";
 
 const Login = () => {
@@ -11,6 +10,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  
 
   const onLoginSubmit = (data) => {
     // handle login logic with data.email and data.password
