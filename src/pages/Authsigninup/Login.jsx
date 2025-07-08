@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/lottieanimation/foodanimation.json";
-import { Leaf, Github, LogIn, Mail } from "lucide-react";
+import { Github, LogIn } from "lucide-react";
 import Logo from "../../components/Logo";
+import { Link } from "react-router";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // handle email/password login
+  const onLoginSubmit = (data) => {
+    // handle login logic with data.email and data.password
+    console.log(data);
   };
 
   const handleGoogleLogin = () => {
@@ -28,7 +32,7 @@ const Login = () => {
         {/* Top Logo + Heading */}
         <div className="mb-8 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-            <Logo></Logo>
+             <h1 className="text-3xl">Login your Account</h1>
           </div>
           <p className="text-base-content/70 text-sm">
             Welcome back! Please log in to continue reducing food waste 💚
@@ -36,38 +40,67 @@ const Login = () => {
         </div>
 
         {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleSubmit(onLoginSubmit)} className="space-y-4">
+          {/* Email */}
           <div>
             <label className="label">
               <span className="label-text">Email</span>
             </label>
             <input
               type="email"
-              required
-              className="input input-bordered w-full"
               placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              className="input input-bordered w-full"
+              {...register("email", { required: "Email is required" })}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
+          {/* Password */}
           <div>
             <label className="label">
               <span className="label-text">Password</span>
             </label>
             <input
               type="password"
-              required
-              className="input input-bordered w-full"
               placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              className="input input-bordered w-full"
+              {...register("password", {
+                required: "Password is required",
+                minLength: { value: 6, message: "Minimum 6 characters" },
+              })}
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
-          <button className="btn btn-secondary hover:btn-accent hover:text-primary text-accent w-full flex items-center gap-2">
+          {/* Remember + Forgot */}
+          <div className="flex justify-between items-center text-sm text-base-content/70">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="checkbox checkbox-sm" />
+              <span>Remember me</span>
+            </label>
+            <Link to="/forgot-password" className="link link-hover">
+              Forgot password?
+            </Link>
+          </div>
+
+          {/* Submit Button */}
+          <button className="btn btn-secondary w-full flex items-center gap-2 hover:btn-accent hover:text-primary text-accent">
             <LogIn className="h-4 w-4" /> Login
           </button>
+          <p className="text-sm mt-4">
+            Don't have an account?{" "}
+            <Link to="/register" className="link link-secondary">
+              Register
+            </Link>
+          </p>
         </form>
 
         {/* Divider */}
@@ -99,7 +132,11 @@ const Login = () => {
 
       {/* Right - Lottie Animation */}
       <div className="hidden md:block w-full md:w-1/2 p-6">
-        <Lottie animationData={loginAnimation} loop className="max-w-xl mx-auto" />
+        <Lottie
+          animationData={loginAnimation}
+          loop
+          className="max-w-xl mx-auto"
+        />
       </div>
     </section>
   );
