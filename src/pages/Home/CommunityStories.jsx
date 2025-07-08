@@ -93,32 +93,6 @@ const CommunityStories = () => {
             </div>
           ))}
         </div>
-
-        <div className="text-secondary mt-12">
-          <div className="bg-base-100 shadow-lg rounded-lg p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-base-content mb-4">
-              Join Our Growing Community
-            </h3>
-            <p className="text-secondary mb-6">
-              Be part of the solution. Whether you're a restaurant owner, charity director, or community volunteer,
-              there's a place for you in our mission to reduce food waste and feed communities.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <div className="bg-primary/10 rounded-lg p-4 text-center">
-                <div className="text-2xl font-bold text-primary">180+</div>
-                <div className="text-sm text-base-content/60">Restaurant Partners</div>
-              </div>
-              <div className="bg-primary/10 rounded-lg p-4 text-center">
-                <div className="text-2xl font-bold text-primary">95+</div>
-                <div className="text-sm text-base-content/60">Registered Charities</div>
-              </div>
-              <div className="bg-primary/10 rounded-lg p-4 text-center">
-                <div className="text-2xl font-bold text-primary">500+</div>
-                <div className="text-sm text-base-content/60">Active Volunteers</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
