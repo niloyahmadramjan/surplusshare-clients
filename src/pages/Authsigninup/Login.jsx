@@ -4,14 +4,20 @@ import loginAnimation from "../../assets/lottieanimation/foodanimation.json";
 import { Github, LogIn } from "lucide-react";
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Login = () => {
-  const {
+ const {
     handleSignInEmailPass,
-    handleGithubLogin,
     handleGoogleLogin,
+    handleGithubLogin,
     setLoader,
+    setUser
   } = useAuth();
+
+  const axiosSecure = useAxiosSecure();
+
   const {
     register,
     handleSubmit,
@@ -19,63 +25,112 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onLoginSubmit = (data) => {
-    handleSignInEmailPass(data.email, data.password)
-      .then((result) => {
-        reset()
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
+  // 🔐 Email/password login submit
+  const onLoginSubmit = async (data) => {
+    try {
+      const result = await handleSignInEmailPass(data.email, data.password);
+      const user = result.user;
+      setUser(user)
+
+      // ✅ Update backend login time
+      const userData = {
+        name: user.displayName || "No Name",
+        email: user.email,
+        photoURL: user.photoURL || "",
+        role: "user",
+
+      };
+
+      await axiosSecure.post("/users", userData);
+
+      Swal.fire({
+        icon: "success",
+        title: "Login successful!",
+        timer: 1500,
+        showConfirmButton: false,
       });
+
+      reset();
+    } catch (error) {
+      console.error("Login Error:", error);
+      Swal.fire({
+        icon: "error",
+        title: error.message || "Login failed",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
   };
 
-  // ✅ Google Login with Popup
+  // 🔵 Google login handler
   const OnSubmitHandleGoogleLogin = async () => {
     setLoader(true);
     try {
       const result = await handleGoogleLogin();
-      const loggedInUser = result.user;
-      console.log(loggedInUser);
+      const user = result.user;
+      setUser(user)
 
+      const userData = {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: "user",
+      };
 
-      // ✅ You can send user info to your server here
-      // await axios.post("https://your-api.com/users", {
-      //   name: loggedInUser.displayName,
-      //   email: loggedInUser.email,
-      //   photoURL: loggedInUser.photoURL,
-      //   role: "user"
-      // });
+      await axiosSecure.post("/users", userData);
+
+      Swal.fire({
+        icon: "success",
+        title: "Google login successful!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
 
       return result;
     } catch (error) {
       console.error("Google Login Error:", error);
-      throw error;
+      Swal.fire({
+        icon: "error",
+        title: "Google login failed",
+        text: error.message,
+      });
     } finally {
       setLoader(false);
     }
   };
 
-  // ✅ GitHub Login with Popup
+  // ⚫ GitHub login handler
   const OnSubmitHandleGithubLogin = async () => {
     setLoader(true);
     try {
       const result = await handleGithubLogin();
-      const loggedInUser = result.user;
-      console.log(loggedInUser);
+      const user = result.user;
+      setUser(user)
 
-      // ✅ You can send user info to your server here
-      // await axios.post("https://your-api.com/users", {
-      //   name: loggedInUser.displayName,
-      //   email: loggedInUser.email,
-      //   photoURL: loggedInUser.photoURL,
-      //   role: "user"
-      // });
+      const userData = {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: "user",
+      };
+
+      await axiosSecure.post("/users", userData);
+
+      Swal.fire({
+        icon: "success",
+        title: "GitHub login successful!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
 
       return result;
     } catch (error) {
       console.error("GitHub Login Error:", error);
-      throw error;
+      Swal.fire({
+        icon: "error",
+        title: "GitHub login failed",
+        text: error.message,
+      });
     } finally {
       setLoader(false);
     }

@@ -68,6 +68,7 @@ const handleGithubLogin = () => {
   }, []);
   const authinfo = {
     user,
+    setUser,
     loader,
     setLoader,
     signUpUserWithEmailPass,

@@ -8,18 +8,22 @@ import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import axios from "axios";
+import { auth } from "../../services/authService";
 
 const Register = () => {
   const {
     signUpUserWithEmailPass,
-    handleGithubLogin,
     handleGoogleLogin,
-    setLoader,
+    handleGithubLogin,
     updateUserProfile,
+    setLoader,
+    setUser,
   } = useAuth();
+
+  const axiosSecure = useAxiosSecure();
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
-  const axiosSecure = useAxiosSecure();
+
   const {
     register,
     handleSubmit,
@@ -28,6 +32,7 @@ const Register = () => {
     reset,
   } = useForm();
 
+  // 🖼️ Handle image preview on file select
   const handleImagePreview = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -36,25 +41,42 @@ const Register = () => {
     }
   };
 
+  // 📤 Handle form submit for email/password registration
   const onSubmit = async (data) => {
     setLoading(true);
-    const { email, password, photo, name } = data;
+
+    const { email, password, name, photo } = data;
 
     try {
+      // ✅ Upload photo to imgbb
       const formData = new FormData();
       formData.append("image", photo[0]);
 
       const imgbbApiKey = import.meta.env.VITE_imgbbApi_Key;
-
       const imgbbRes = await axios.post(
         `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,
         formData
       );
+
       const imageUrl = imgbbRes.data.data.url;
 
+      // ✅ Create user in Firebase
       await signUpUserWithEmailPass(email, password);
+
+      // ✅ Update Firebase user profile
       await updateUserProfile(name, imageUrl);
 
+      // ✅ Firebase currentUser
+      const loggedInUser = auth.currentUser;
+
+      // ✅ Set user in context manually
+      setUser({
+        ...loggedInUser,
+        displayName: name,
+        photoURL: imageUrl,
+      });
+
+      // ✅ Save user to backend
       const newUser = {
         name,
         email,
@@ -64,6 +86,7 @@ const Register = () => {
 
       await axiosSecure.post("/users", newUser);
 
+      // ✅ Success Toast
       Swal.fire({
         icon: "success",
         title: "Registration successful!",
@@ -71,6 +94,7 @@ const Register = () => {
         showConfirmButton: false,
       });
 
+      // ✅ Reset form
       reset();
       setPreview(null);
     } catch (error) {
@@ -86,51 +110,75 @@ const Register = () => {
     }
   };
 
-  // ✅ Google Login with Popup
+  // 🔵 Handle Google login & save to DB
   const OnSubmitHandleGoogleLogin = async () => {
     setLoader(true);
     try {
       const result = await handleGoogleLogin();
-      const loggedInUser = result.user;
-      console.log(loggedInUser);
+      const user = result.user;
+      setUser(user)
 
-      // ✅ You can send user info to your server here
-      // await axios.post("https://your-api.com/users", {
-      //   name: loggedInUser.displayName,
-      //   email: loggedInUser.email,
-      //   photoURL: loggedInUser.photoURL,
-      //   role: "user"
-      // });
+      const newUser = {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: "user",
+      };
+
+      await axiosSecure.post("/users", newUser);
+
+      Swal.fire({
+        icon: "success",
+        title: "Google login successful!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
 
       return result;
     } catch (error) {
       console.error("Google Login Error:", error);
-      throw error;
+      Swal.fire({
+        icon: "error",
+        title: "Google login failed",
+        text: error.message,
+      });
     } finally {
       setLoader(false);
     }
   };
 
-  // ✅ GitHub Login with Popup
+  // ⚫ Handle GitHub login & save to DB
   const OnSubmitHandleGithubLogin = async () => {
     setLoader(true);
     try {
       const result = await handleGithubLogin();
-      const loggedInUser = result.user;
-      console.log(loggedInUser);
+      const user = result.user;
+      setUser(user)
 
-      // ✅ You can send user info to your server here
-      // await axios.post("https://your-api.com/users", {
-      //   name: loggedInUser.displayName,
-      //   email: loggedInUser.email,
-      //   photoURL: loggedInUser.photoURL,
-      //   role: "user"
-      // });
+      const newUser = {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: "user",
+      };
+
+      await axiosSecure.post("/users", newUser);
+
+      Swal.fire({
+        icon: "success",
+        title: "GitHub login successful!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
 
       return result;
     } catch (error) {
       console.error("GitHub Login Error:", error);
-      throw error;
+      Swal.fire({
+        icon: "error",
+        title: "GitHub login failed",
+        text: error.message,
+      });
     } finally {
       setLoader(false);
     }
