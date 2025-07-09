@@ -3,8 +3,9 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Authsigninup/Login";
 import Register from "../pages/Authsigninup/Register";
-import PrivateRoutes from "./PrivateRoute";
 import AllDonations from "../pages/AllDonations/AllDonations";
+import PrivateRoute from "./PrivateRoute";
+import DonationDetails from "../pages/DonationDetails/DonationDetails";
 
 export const router = createBrowserRouter([
   {
@@ -25,8 +26,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/donations",
-        element: <PrivateRoutes><AllDonations></AllDonations></PrivateRoutes>
+        element: <PrivateRoute><AllDonations></AllDonations></PrivateRoute>
       },
+      {
+        path: "/donation/:id",
+        element: <PrivateRoute><DonationDetails></DonationDetails></PrivateRoute>
+
+      }
     ],
   },
 ]);
