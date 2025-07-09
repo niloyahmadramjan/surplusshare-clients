@@ -6,11 +6,20 @@ import { Github, UserPlus } from "lucide-react";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import axios from "axios";
 
 const Register = () => {
-  const { signUpUserWithEmailPass,handleGithubLogin,handleGoogleLogin,setLoader } = useAuth();
+  const {
+    signUpUserWithEmailPass,
+    handleGithubLogin,
+    handleGoogleLogin,
+    setLoader,
+    updateUserProfile,
+  } = useAuth();
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -29,118 +38,103 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const { email, password } = data;
-    console.log(data);
+    const { email, password, photo, name } = data;
+
     try {
+      const formData = new FormData();
+      formData.append("image", photo[0]);
+
+      const imgbbApiKey = import.meta.env.VITE_imgbbApi_Key;
+
+      const imgbbRes = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,
+        formData
+      );
+      const imageUrl = imgbbRes.data.data.url;
+
       await signUpUserWithEmailPass(email, password);
-       Swal.fire({
+      await updateUserProfile(name, imageUrl);
+
+      const newUser = {
+        name,
+        email,
+        photoURL: imageUrl,
+        role: "user",
+      };
+
+      await axiosSecure.post("/users", newUser);
+
+      Swal.fire({
         icon: "success",
         title: "Registration successful!",
         timer: 1500,
         showConfirmButton: false,
       });
+
       reset();
-
+      setPreview(null);
     } catch (error) {
-      console.log(error);
+      console.error("Registration error:", error);
+      Swal.fire({
+        icon: "error",
+        title: error.message || "Registration failed",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } finally {
+      setLoading(false);
     }
-
-    // try {
-    //   const formData = new FormData();
-    //   formData.append("image", photo[0]);
-
-    //   const imgbbApiKey = import.meta.env.VITE_imgbbApi_Key;
-
-    //   const imgbbRes = await axios.post(
-    //     `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,
-    //     formData
-    //   );
-    //   const imageUrl = imgbbRes.data.data.url;
-
-    //   await signUpUserWithEmailPass(email, password);
-    //   await updateUserProfile(name, imageUrl);
-
-    //   const newUser = {
-    //     name,
-    //     email,
-    //     photo: imageUrl,
-    //     role: "user",
-    //   };
-
-    //   await axios.post("/users", newUser);
-
-    //   Swal.fire({
-    //     icon: "success",
-    //     title: "Registration successful!",
-    //     timer: 1500,
-    //     showConfirmButton: false,
-    //   });
-
-    //   reset();
-    //   setPreview(null);
-    // } catch (error) {
-    //   console.error("Registration error:", error);
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: error.message || "Registration failed",
-    //     timer: 1500,
-    //     showConfirmButton: false,
-    //   });
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
+  // ✅ Google Login with Popup
+  const OnSubmitHandleGoogleLogin = async () => {
+    setLoader(true);
+    try {
+      const result = await handleGoogleLogin();
+      const loggedInUser = result.user;
+      console.log(loggedInUser);
 
-// ✅ Google Login with Popup
-const OnSubmitHandleGoogleLogin = async () => {
-  setLoader(true);
-  try {
-    const result = await handleGoogleLogin();
-    const loggedInUser = result.user;
-    console.log(loggedInUser)
+      // ✅ You can send user info to your server here
+      // await axios.post("https://your-api.com/users", {
+      //   name: loggedInUser.displayName,
+      //   email: loggedInUser.email,
+      //   photoURL: loggedInUser.photoURL,
+      //   role: "user"
+      // });
 
-    // ✅ You can send user info to your server here
-    // await axios.post("https://your-api.com/users", {
-    //   name: loggedInUser.displayName,
-    //   email: loggedInUser.email,
-    //   photoURL: loggedInUser.photoURL,
-    //   role: "user"
-    // });
+      return result;
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      throw error;
+    } finally {
+      setLoader(false);
+    }
+  };
 
-    return result;
-  } catch (error) {
-    console.error("Google Login Error:", error);
-    throw error;
-  } finally {
-    setLoader(false);
-  }
-};
+  // ✅ GitHub Login with Popup
+  const OnSubmitHandleGithubLogin = async () => {
+    setLoader(true);
+    try {
+      const result = await handleGithubLogin();
+      const loggedInUser = result.user;
+      console.log(loggedInUser);
 
-// ✅ GitHub Login with Popup
-const OnSubmitHandleGithubLogin = async () => {
-  setLoader(true);
-  try {
-    const result = await handleGithubLogin();
-    const loggedInUser = result.user;
-    console.log(loggedInUser)
+      // ✅ You can send user info to your server here
+      // await axios.post("https://your-api.com/users", {
+      //   name: loggedInUser.displayName,
+      //   email: loggedInUser.email,
+      //   photoURL: loggedInUser.photoURL,
+      //   role: "user"
+      // });
 
-    // ✅ You can send user info to your server here
-    // await axios.post("https://your-api.com/users", {
-    //   name: loggedInUser.displayName,
-    //   email: loggedInUser.email,
-    //   photoURL: loggedInUser.photoURL,
-    //   role: "user"
-    // });
-
-    return result;
-  } catch (error) {
-    console.error("GitHub Login Error:", error);
-    throw error;
-  } finally {
-    setLoader(false);
-  }
-};
+      return result;
+    } catch (error) {
+      console.error("GitHub Login Error:", error);
+      throw error;
+    } finally {
+      setLoader(false);
+    }
+  };
 
   return (
     <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-base-100">

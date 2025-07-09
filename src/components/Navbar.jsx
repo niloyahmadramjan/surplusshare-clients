@@ -96,7 +96,7 @@ const Navbar = () => {
 
         {/* Drawer panel */}
         <div
-          className={`fixed top-[66px] right-0 h-full w-52  bg-gray-200 backdrop-blur-lg shadow-lg z-50 transform transition-transform duration-300 ${
+          className={`fixed top-[64px] right-0 h-full w-52  bg-gray-200 backdrop-blur-lg shadow-lg z-50 transform transition-transform duration-300 ${
     isDrawerOpen ? "translate-x-0" : "translate-x-full"
   }`}
         >
