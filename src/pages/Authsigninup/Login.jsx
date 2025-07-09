@@ -2,21 +2,23 @@ import { useForm } from "react-hook-form";
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/lottieanimation/foodanimation.json";
 import { Github, LogIn } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Login = () => {
- const {
+  const {
     handleSignInEmailPass,
     handleGoogleLogin,
     handleGithubLogin,
     setLoader,
-    setUser
+    setUser,
   } = useAuth();
 
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -30,7 +32,7 @@ const Login = () => {
     try {
       const result = await handleSignInEmailPass(data.email, data.password);
       const user = result.user;
-      setUser(user)
+      setUser(user);
 
       // ✅ Update backend login time
       const userData = {
@@ -38,7 +40,6 @@ const Login = () => {
         email: user.email,
         photoURL: user.photoURL || "",
         role: "user",
-
       };
 
       await axiosSecure.post("/users", userData);
@@ -49,7 +50,7 @@ const Login = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-
+      navigate(`${location.state ? location.state : "/"}`);
       reset();
     } catch (error) {
       console.error("Login Error:", error);
@@ -68,7 +69,7 @@ const Login = () => {
     try {
       const result = await handleGoogleLogin();
       const user = result.user;
-      setUser(user)
+      setUser(user);
 
       const userData = {
         name: user.displayName,
@@ -85,7 +86,7 @@ const Login = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-
+      navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
       console.error("Google Login Error:", error);
@@ -105,7 +106,7 @@ const Login = () => {
     try {
       const result = await handleGithubLogin();
       const user = result.user;
-      setUser(user)
+      setUser(user);
 
       const userData = {
         name: user.displayName,
@@ -122,7 +123,7 @@ const Login = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-
+      navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
       console.error("GitHub Login Error:", error);
@@ -208,7 +209,7 @@ const Login = () => {
           </button>
           <p className="text-sm mt-4">
             Don't have an account?{" "}
-            <Link to="/register" className="link link-secondary">
+            <Link to="/register" state={location.state} className="link link-secondary">
               Register
             </Link>
           </p>

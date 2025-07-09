@@ -3,14 +3,15 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Authsigninup/Login";
 import Register from "../pages/Authsigninup/Register";
-
+import PrivateRoutes from "./PrivateRoute";
+import AllDonations from "../pages/AllDonations/AllDonations";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
     children: [
-          {
+      {
         index: true,
         Component: Home,
       },
@@ -20,8 +21,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/register",
-        Component: Register
-      }
-    ]
+        Component: Register,
+      },
+      {
+        path: "/test",
+        element: <PrivateRoutes><AllDonations></AllDonations></PrivateRoutes>
+      },
+    ],
   },
 ]);

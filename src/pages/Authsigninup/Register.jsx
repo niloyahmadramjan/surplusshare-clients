@@ -3,7 +3,7 @@ import { useState } from "react";
 import Lottie from "lottie-react";
 import registerAnimation from "../../assets/lottieanimation/foodanimation.json";
 import { Github, UserPlus } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -23,6 +23,8 @@ const Register = () => {
   const axiosSecure = useAxiosSecure();
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -93,7 +95,7 @@ const Register = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-
+       navigate(`${location.state ? location.state : "/"}`);
       // ✅ Reset form
       reset();
       setPreview(null);
@@ -133,7 +135,7 @@ const Register = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-
+       navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
       console.error("Google Login Error:", error);
@@ -170,7 +172,7 @@ const Register = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-
+       navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
       console.error("GitHub Login Error:", error);
