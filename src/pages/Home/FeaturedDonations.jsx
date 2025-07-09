@@ -1,4 +1,5 @@
 import { MapPin, Clock } from "lucide-react";
+import { Link } from "react-router";
 
 const FeaturedDonations = () => {
   const donations = [
@@ -136,7 +137,7 @@ const FeaturedDonations = () => {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <button className="btn btn-outline btn-lg px-8">View All Donations</button>
+          <Link to='/donations' className="btn btn-outline btn-lg px-8">View All Donations</Link>
         </div>
       </div>
     </section>

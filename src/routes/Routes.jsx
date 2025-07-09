@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
         Component: Register,
       },
       {
-        path: "/test",
+        path: "/donations",
         element: <PrivateRoutes><AllDonations></AllDonations></PrivateRoutes>
       },
     ],
