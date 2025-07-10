@@ -9,6 +9,7 @@ import DonationDetails from "../pages/DonationDetails/DonationDetails";
 import DashboardHome from "../pages/dashboard/DashboardHome";
 import DashboardLayout from "../layouts/DashboardLayout";
 import UserProfile from "../pages/dashboard/user/UserProfile";
+import CharityRoleRequest from "../pages/dashboard/user/RequestCharityRole";
 
 export const router = createBrowserRouter([
   {
@@ -57,7 +58,12 @@ export const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <PrivateRoute><UserProfile></UserProfile></PrivateRoute>
+      },
+      {
+        path: "request-charity-role",
+        element: <PrivateRoute><CharityRoleRequest></CharityRoleRequest></PrivateRoute>
       }
+
     ],
   },
 ]);

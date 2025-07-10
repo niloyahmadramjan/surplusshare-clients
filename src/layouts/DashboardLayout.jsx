@@ -154,7 +154,7 @@ const DashboardLayout = () => {
               {user?.displayName || "User"}
             </span>
             <img
-              src={user?.photoURL || "https://i.ibb.co/2nFsnj6/default.png"}
+              src={user?.photoURL}
               alt="User"
               className="w-8 h-8 rounded-full object-cover"
             />
