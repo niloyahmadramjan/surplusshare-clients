@@ -150,14 +150,15 @@ const DashboardLayout = () => {
             <FaBars className="text-xl" />
           </label>
           <div className="flex items-center gap-2">
+             <span className="font-medium text-sm">
+              {user?.displayName || "User"}
+            </span>
             <img
               src={user?.photoURL || "https://i.ibb.co/2nFsnj6/default.png"}
               alt="User"
               className="w-8 h-8 rounded-full object-cover"
             />
-            <span className="font-medium text-sm">
-              {user?.displayName || "User"}
-            </span>
+           
           </div>
         </div>
 

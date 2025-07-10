@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import DonationDetails from "../pages/DonationDetails/DonationDetails";
 import DashboardHome from "../pages/dashboard/DashboardHome";
 import DashboardLayout from "../layouts/DashboardLayout";
+import UserProfile from "../pages/dashboard/user/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
         index: true,
         element: <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>,
       },
+      {
+        path: "my-profile",
+        element: <PrivateRoute><UserProfile></UserProfile></PrivateRoute>
+      }
     ],
   },
 ]);

@@ -9,6 +9,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import axios from "axios";
 import { auth } from "../../services/authService";
+import { firebaseErrorMessage } from "../../utils/firebaseErrorMessage";
 
 const Register = () => {
   const {
@@ -25,6 +26,13 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+    const [errorMessage,setErrorMessage]= useState("");
+  
+    // handle firebase error 
+    const handleError = (error)=>{
+      const errorMessage = firebaseErrorMessage(error.code);
+      setErrorMessage(errorMessage)
+    }
 
   const {
     register,
@@ -100,10 +108,11 @@ const Register = () => {
       reset();
       setPreview(null);
     } catch (error) {
-      console.error("Registration error:", error);
+      handleError(error)
+      setLoader(false);
       Swal.fire({
         icon: "error",
-        title: error.message || "Registration failed",
+        title: errorMessage,
         timer: 1500,
         showConfirmButton: false,
       });
@@ -138,11 +147,12 @@ const Register = () => {
        navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
-      console.error("Google Login Error:", error);
+      setLoader(false);
+      handleError(error)
       Swal.fire({
         icon: "error",
         title: "Google login failed",
-        text: error.message,
+        text: errorMessage,
       });
     } finally {
       setLoader(false);
@@ -175,11 +185,12 @@ const Register = () => {
        navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
-      console.error("GitHub Login Error:", error);
+      setLoader(false);
+      handleError(error)
       Swal.fire({
         icon: "error",
         title: "GitHub login failed",
-        text: error.message,
+        text: errorMessage,
       });
     } finally {
       setLoader(false);

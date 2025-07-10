@@ -6,6 +6,8 @@ import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { firebaseErrorMessage } from "../../utils/firebaseErrorMessage";
+import { useState } from "react";
 
 const Login = () => {
   const {
@@ -19,6 +21,13 @@ const Login = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
+  const [errorMessage,setErrorMessage]= useState("");
+
+  // handle firebase error 
+  const handleError = (error)=>{
+    const errorMessage = firebaseErrorMessage(error.code);
+    setErrorMessage(errorMessage)
+  }
 
   const {
     register,
@@ -53,10 +62,12 @@ const Login = () => {
       navigate(`${location.state ? location.state : "/"}`);
       reset();
     } catch (error) {
+      handleError(error)
+      setLoader(false)
       console.error("Login Error:", error);
       Swal.fire({
         icon: "error",
-        title: error.message || "Login failed",
+        title: errorMessage || "Login failed",
         timer: 1500,
         showConfirmButton: false,
       });
@@ -89,11 +100,12 @@ const Login = () => {
       navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
-      console.error("Google Login Error:", error);
+      setLoader(false)
+      handleError(error)
       Swal.fire({
         icon: "error",
         title: "Google login failed",
-        text: error.message,
+        text: errorMessage,
       });
     } finally {
       setLoader(false);
@@ -126,11 +138,12 @@ const Login = () => {
       navigate(`${location.state ? location.state : "/"}`);
       return result;
     } catch (error) {
-      console.error("GitHub Login Error:", error);
+      setLoader(false)
+      handleError(error)
       Swal.fire({
         icon: "error",
         title: "GitHub login failed",
-        text: error.message,
+        text: errorMessage,
       });
     } finally {
       setLoader(false);
@@ -182,7 +195,7 @@ const Login = () => {
               className="input input-bordered w-full"
               {...register("password", {
                 required: "Password is required",
-                minLength: { value: 6, message: "Minimum 6 characters" },
+                
               })}
             />
             {errors.password && (
