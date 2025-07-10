@@ -6,6 +6,8 @@ import Register from "../pages/Authsigninup/Register";
 import AllDonations from "../pages/AllDonations/AllDonations";
 import PrivateRoute from "./PrivateRoute";
 import DonationDetails from "../pages/DonationDetails/DonationDetails";
+import DashboardHome from "../pages/dashboard/DashboardHome";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -26,13 +28,31 @@ export const router = createBrowserRouter([
       },
       {
         path: "/donations",
-        element: <PrivateRoute><AllDonations></AllDonations></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <AllDonations></AllDonations>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/donation/:id",
-        element: <PrivateRoute><DonationDetails></DonationDetails></PrivateRoute>
-
-      }
+        element: (
+          <PrivateRoute>
+            <DonationDetails></DonationDetails>
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+  // Dashboard component 
+  {
+    path: "/dashboard",
+    Component: DashboardLayout,
+    children: [
+      {
+        index: true,
+        element: <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>,
+      },
     ],
   },
 ]);

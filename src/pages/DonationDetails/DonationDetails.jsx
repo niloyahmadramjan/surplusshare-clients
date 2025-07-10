@@ -1,52 +1,84 @@
-import { useParams } from 'react-router';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { Clock, MapPin, User, Heart, ShoppingBag } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { useParams } from "react-router";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Clock, MapPin, User, Heart, ShoppingBag, Star } from "lucide-react";
+import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const DonationDetails = () => {
   const { id } = useParams();
-  console.log(id)
   const axiosSecure = useAxiosSecure();
-  const [pickupTime, setPickupTime] = useState('');
-  const [description, setDescription] = useState('');
+  const [pickupTime, setPickupTime] = useState("");
+  const [description, setDescription] = useState("");
+  const [reviewer, setReviewer] = useState("");
+  const [reviewText, setReviewText] = useState("");
+  const [rating, setRating] = useState(5);
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
 
-  const { data: donation, isLoading, isError } = useQuery({
-    queryKey: ['donation', id],
+  const {
+    data: donation,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["donation", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/donations/${id}`);
       return res.data;
-    }
+    },
   });
 
   const favoriteMutation = useMutation({
     mutationFn: async () => {
-      await axiosSecure.post('/favorites', { donationId: id });
+      await axiosSecure.post("/favorites", {
+        donationId: id,
+        userEmail: user.email,
+      });
     },
-    onSuccess: () => toast.success('Added to favorites!'),
-    onError: () => toast.error('Failed to add to favorites.')
+    onSuccess: () => toast.success("Added to favorites!"),
+    onError: () => toast.error("Failed to add to favorites."),
   });
 
   const requestMutation = useMutation({
     mutationFn: async () => {
-      await axiosSecure.post('/donation-requests', {
+      await axiosSecure.post("/donation-requests", {
+        charityName: user.displayName,
+        charityEmail: user.email,
         donationId: id,
         description,
-        pickupTime
+        pickupTime,
       });
     },
-    onSuccess: () => toast.success('Request submitted!'),
-    onError: () => toast.error('Failed to submit request.')
+    onSuccess: () => toast.success("Request submitted!"),
+    onError: () => toast.error("Failed to submit request."),
+  });
+
+  const reviewMutation = useMutation({
+    mutationFn: async () => {
+      await axiosSecure.post(`/donations/${id}/reviews`, {
+        reviewer,
+        description: reviewText,
+        rating: parseInt(rating),
+      });
+    },
+    onSuccess: () => {
+      toast.success("Review submitted!");
+      queryClient.invalidateQueries(["donation", id]);
+    },
+    onError: () => toast.error("Failed to submit review."),
   });
 
   if (isLoading) return <div className="text-center py-20">Loading...</div>;
-  if (isError || !donation) return <div className="text-center text-red-500">Error loading donation</div>;
+  if (isError || !donation)
+    return (
+      <div className="text-center text-red-500">Error loading donation</div>
+    );
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-base-200 rounded-xl shadow-lg">
       <img
-        src={donation.imageUrl || 'https://via.placeholder.com/600x300'}
+        src={donation.imageUrl || "https://via.placeholder.com/600x300"}
         className="w-full h-60 object-cover rounded-lg mb-4"
         alt={donation.title}
       />
@@ -61,7 +93,8 @@ const DonationDetails = () => {
           <MapPin className="h-4 w-4" /> {donation.location}
         </div>
         <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4" /> {new Date(donation.pickupTime).toLocaleString()}
+          <Clock className="h-4 w-4" />{" "}
+          {new Date(donation.pickupTime).toLocaleString()}
         </div>
         <div>
           <span className="font-semibold">Quantity:</span> {donation.quantity}
@@ -71,7 +104,8 @@ const DonationDetails = () => {
         </div>
         {donation.charityName && (
           <div>
-            <span className="font-semibold">Assigned to:</span> {donation.charityName}
+            <span className="font-semibold">Assigned to:</span>{" "}
+            {donation.charityName}
           </div>
         )}
       </div>
@@ -86,29 +120,117 @@ const DonationDetails = () => {
 
         <button
           className="btn btn-secondary w-full"
-          onClick={() => document.getElementById('request_modal').showModal()}
+          onClick={() => document.getElementById("request_modal").showModal()}
         >
           <ShoppingBag className="w-4 h-4 mr-2" /> Request Pickup
+        </button>
+      </div>
+
+      <div className="text-center mt-6">
+        <button
+          className="btn btn-outline btn-accent"
+          onClick={() => document.getElementById("review_modal").showModal()}
+        >
+          <Star className="w-4 h-4 mr-2" /> Add Review
         </button>
       </div>
 
       <dialog id="request_modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Request Donation</h3>
-          <p className="text-sm text-base-content/70 mb-4">Fill out the pickup details</p>
-
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            requestMutation.mutate();
-            document.getElementById('request_modal').close();
-          }} className="space-y-4">
-            <input type="text" readOnly value={donation.title} className="input input-bordered w-full" />
-            <input type="text" readOnly value={donation.restaurantName} className="input input-bordered w-full" />
-            <input type="text" placeholder="Pickup Time (e.g. 2025-07-10 16:00)" required className="input input-bordered w-full" onChange={(e) => setPickupTime(e.target.value)} />
-            <textarea className="textarea textarea-bordered w-full" required placeholder="Why do you need this?" onChange={(e) => setDescription(e.target.value)}></textarea>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              requestMutation.mutate();
+              document.getElementById("request_modal").close();
+            }}
+            className="space-y-4"
+          >
+            <input
+              type="text"
+              readOnly
+              value={donation.title}
+              className="input input-bordered w-full"
+            />
+            <input
+              type="text"
+              readOnly
+              value={donation.restaurantName}
+              className="input input-bordered w-full"
+            />
+            <input
+              type="text"
+              placeholder="Pickup Time (e.g. 2025-07-10 16:00)"
+              required
+              className="input input-bordered w-full"
+              onChange={(e) => setPickupTime(e.target.value)}
+            />
+            <textarea
+              className="textarea textarea-bordered w-full"
+              required
+              placeholder="Why do you need this?"
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
             <div className="modal-action">
-              <button type="submit" className="btn btn-success">Submit</button>
-              <button type="button" onClick={() => document.getElementById('request_modal').close()} className="btn">Cancel</button>
+              <button type="submit" className="btn btn-success">
+                Submit
+              </button>
+              <button
+                type="button"
+                onClick={() => document.getElementById("request_modal").close()}
+                className="btn"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+
+      <dialog id="review_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Add Review</h3>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              reviewMutation.mutate();
+              document.getElementById("review_modal").close();
+            }}
+            className="space-y-4"
+          >
+            <input
+              type="text"
+              placeholder="Your name"
+              required
+              className="input input-bordered w-full"
+              onChange={(e) => setReviewer(e.target.value)}
+            />
+            <textarea
+              className="textarea textarea-bordered w-full"
+              required
+              placeholder="Write your review here..."
+              onChange={(e) => setReviewText(e.target.value)}
+            ></textarea>
+            <input
+              type="number"
+              min="1"
+              max="5"
+              placeholder="Rating (1 to 5)"
+              required
+              className="input input-bordered w-full"
+              onChange={(e) => setRating(e.target.value)}
+            />
+            <div className="modal-action">
+              <button type="submit" className="btn btn-primary">
+                Submit Review
+              </button>
+              <button
+                type="button"
+                onClick={() => document.getElementById("review_modal").close()}
+                className="btn"
+              >
+                Cancel
+              </button>
             </div>
           </form>
         </div>
