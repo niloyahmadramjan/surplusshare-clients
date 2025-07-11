@@ -57,9 +57,14 @@ const DonationDetails = () => {
   const reviewMutation = useMutation({
     mutationFn: async () => {
       await axiosSecure.post(`/donations/${id}/reviews`, {
-        reviewer,
+        reviewerInfo: {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        },
+        reviewerName: reviewer,
         description: reviewText,
-        rating: parseInt(rating),
+        rating: rating,
       });
     },
     onSuccess: () => {

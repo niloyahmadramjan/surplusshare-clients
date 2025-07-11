@@ -10,6 +10,8 @@ import DashboardHome from "../pages/dashboard/DashboardHome";
 import DashboardLayout from "../layouts/DashboardLayout";
 import UserProfile from "../pages/dashboard/user/UserProfile";
 import CharityRoleRequest from "../pages/dashboard/user/RequestCharityRole";
+import Favorites from "../pages/dashboard/user/Favorites";
+import MyReviews from "../pages/dashboard/user/MyReviews";
 
 export const router = createBrowserRouter([
   {
@@ -62,7 +64,12 @@ export const router = createBrowserRouter([
       {
         path: "request-charity-role",
         element: <PrivateRoute><CharityRoleRequest></CharityRoleRequest></PrivateRoute>
-      }
+      },
+      {
+        path: "favorites",
+        element: <PrivateRoute><Favorites></Favorites></PrivateRoute>
+      },
+      
 
     ],
   },
