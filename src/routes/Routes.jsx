@@ -12,6 +12,7 @@ import UserProfile from "../pages/dashboard/user/UserProfile";
 import CharityRoleRequest from "../pages/dashboard/user/RequestCharityRole";
 import Favorites from "../pages/dashboard/user/Favorites";
 import MyReviews from "../pages/dashboard/user/MyReviews";
+import TransactionHistory from "../pages/dashboard/user/TransactionHistory";
 
 export const router = createBrowserRouter([
   {
@@ -69,7 +70,14 @@ export const router = createBrowserRouter([
         path: "favorites",
         element: <PrivateRoute><Favorites></Favorites></PrivateRoute>
       },
-      
+      {
+        path: "my-reviews",
+        element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute>
+      },
+      {
+        path: "user-transactions",
+        element: <PrivateRoute><TransactionHistory></TransactionHistory></PrivateRoute>
+      }
 
     ],
   },
