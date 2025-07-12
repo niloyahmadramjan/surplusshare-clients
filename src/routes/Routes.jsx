@@ -13,6 +13,8 @@ import CharityRoleRequest from "../pages/dashboard/user/RequestCharityRole";
 import Favorites from "../pages/dashboard/user/Favorites";
 import MyReviews from "../pages/dashboard/user/MyReviews";
 import TransactionHistory from "../pages/dashboard/user/TransactionHistory";
+import RestaurantProfile from "../pages/dashboard/restaurant/RestaurantProfile";
+import AddDonation from "../pages/dashboard/restaurant/AddDonation";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +60,7 @@ export const router = createBrowserRouter([
         index: true,
         element: <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>,
       },
+      // Normal user role 
       {
         path: "my-profile",
         element: <PrivateRoute><UserProfile></UserProfile></PrivateRoute>
@@ -77,6 +80,15 @@ export const router = createBrowserRouter([
       {
         path: "user-transactions",
         element: <PrivateRoute><TransactionHistory></TransactionHistory></PrivateRoute>
+      },
+      // restaurant user role 
+      {
+        path: "restaurant-profile",
+        element: <RestaurantProfile></RestaurantProfile>
+      },
+      {
+        path: "add-donation",
+        element: <AddDonation></AddDonation>
       }
 
     ],

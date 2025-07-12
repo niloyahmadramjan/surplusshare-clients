@@ -15,7 +15,7 @@ const getStatusClass = (status) => {
     case 'Accepted':
       return 'bg-secondary text-white text-xs px-3 py-1 rounded-full';
     default:
-      return 'bg-base-300 text-white text-xs px-3 py-1 rounded-full';
+      return 'bg-accent text-white text-xs px-3 py-1 rounded-full';
   }
 };
 

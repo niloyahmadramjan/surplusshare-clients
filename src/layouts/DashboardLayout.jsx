@@ -11,6 +11,7 @@ import {
   FaStar,
   FaSignOutAlt,
   FaBars,
+  FaPlusCircle,
 } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
@@ -70,6 +71,31 @@ const DashboardLayout = () => {
             </Link>
           </>
         );
+
+      case "restaurant":
+        return (
+          <>
+            <Link
+              to="restaurant-profile"
+              className="btn btn-ghost justify-start"
+            >
+              <FaUserShield /> Restaurant Profile
+            </Link>
+            <Link to="add-donation" className="btn btn-ghost justify-start">
+              <FaPlusCircle /> Add Donation
+            </Link>
+            <Link to="my-donations" className="btn btn-ghost justify-start">
+              <FaClipboardList /> My Donations
+            </Link>
+            <Link
+              to="requested-donations"
+              className="btn btn-ghost justify-start"
+            >
+              <FaClipboardList /> Requested Donations
+            </Link>
+          </>
+        );
+
       case "charity":
         return (
           <>
@@ -150,7 +176,7 @@ const DashboardLayout = () => {
             <FaBars className="text-xl" />
           </label>
           <div className="flex items-center gap-2">
-             <span className="font-medium text-sm">
+            <span className="font-medium text-sm">
               {user?.displayName || "User"}
             </span>
             <img
@@ -158,7 +184,6 @@ const DashboardLayout = () => {
               alt="User"
               className="w-8 h-8 rounded-full object-cover"
             />
-           
           </div>
         </div>
 
