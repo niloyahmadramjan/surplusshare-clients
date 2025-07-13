@@ -15,9 +15,8 @@ const AddDonation = () => {
   } = useForm();
   const [imagePreview, setImagePreview] = useState(null);
   const axiosSecure = useAxiosSecure();
-  const {user}= useAuth();
+  const { user } = useAuth();
   const queryClient = useQueryClient();
-
 
   const { mutateAsync: addDonation, isPending } = useMutation({
     mutationFn: async (formData) => {
@@ -33,42 +32,39 @@ const AddDonation = () => {
     onError: () => toast.error("Failed to add donation"),
   });
 
+  const onSubmit = async (data) => {
+    const imageFile = data.image[0];
 
-  
-const onSubmit = async (data) => {
-  const imageFile = data.image[0];
+    try {
+      // ✅ Upload image to imgbb using Axios
+      const formData = new FormData();
+      formData.append("image", imageFile);
 
-  try {
-    // ✅ Upload image to imgbb using Axios
-    const formData = new FormData();
-    formData.append("image", imageFile);
+      const imgbbApiKey = import.meta.env.VITE_imgbbApi_Key;
+      const imgbbRes = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,
+        formData
+      );
 
-    const imgbbApiKey = import.meta.env.VITE_imgbbApi_Key;
-    const imgbbRes = await axios.post(
-      `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`,
-      formData
-    );
+      const imageUrl = imgbbRes?.data?.data?.url;
+      const donationData = {
+        title: data.title,
+        description: data.description,
+        foodType: data.foodType,
+        quantity: data.quantity,
+        pickupTime: data.pickupTime,
+        restaurantName: user?.displayName,
+        restaurantEmail: user?.email,
+        location: data.location,
+        imageUrl,
+      };
 
-    const imageUrl = imgbbRes?.data?.data?.url; 
-    const donationData = {
-      title: data.title,
-      description: data.description,
-      foodType: data.foodType,
-      quantity: data.quantity,
-      pickupTime: data.pickupTime,
-      restaurantName: user?.displayName,
-      restaurantEmail: user?.email,
-      location: data.location,
-      imageUrl,
-    };
-
-    await addDonation(donationData);
-  } catch (error) {
-    console.error(error);
-    toast.error("Image upload failed.");
-  }
-};
-
+      await addDonation(donationData);
+    } catch (error) {
+      console.error(error);
+      toast.error("Image upload failed.");
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -91,11 +87,15 @@ const onSubmit = async (data) => {
               className="input input-bordered w-full hover:border-blue-500"
               placeholder="e.g. Surplus Pastries"
             />
-            {errors.title && <span className="text-red-500 text-sm">Required</span>}
+            {errors.title && (
+              <span className="text-red-500 text-sm">Required</span>
+            )}
           </div>
 
           <div>
-            <label className="label text-blue-700 font-semibold">Food Type</label>
+            <label className="label text-blue-700 font-semibold">
+              Food Type
+            </label>
             <input
               type="text"
               {...register("foodType", { required: true })}
@@ -105,7 +105,9 @@ const onSubmit = async (data) => {
           </div>
 
           <div>
-            <label className="label text-blue-700 font-semibold">Quantity</label>
+            <label className="label text-blue-700 font-semibold">
+              Quantity
+            </label>
             <input
               type="text"
               {...register("quantity", { required: true })}
@@ -121,6 +123,7 @@ const onSubmit = async (data) => {
             <input
               type="datetime-local"
               {...register("pickupTime", { required: true })}
+              min={new Date().toISOString().slice(0, 16)}
               className="input input-bordered w-full hover:border-blue-500"
             />
           </div>
@@ -150,7 +153,9 @@ const onSubmit = async (data) => {
           </div>
 
           <div className="md:col-span-2">
-            <label className="label text-blue-700 font-semibold">Location</label>
+            <label className="label text-blue-700 font-semibold">
+              Location
+            </label>
             <input
               type="text"
               {...register("location", { required: true })}
@@ -160,7 +165,9 @@ const onSubmit = async (data) => {
           </div>
 
           <div className="md:col-span-2">
-            <label className="label text-blue-700 font-semibold">Description</label>
+            <label className="label text-blue-700 font-semibold">
+              Description
+            </label>
             <textarea
               {...register("description", { required: true })}
               className="textarea textarea-bordered w-full hover:border-blue-500"
@@ -170,7 +177,9 @@ const onSubmit = async (data) => {
           </div>
 
           <div className="md:col-span-2">
-            <label className="label text-blue-700 font-semibold">Upload Image</label>
+            <label className="label text-blue-700 font-semibold">
+              Upload Image
+            </label>
             <input
               type="file"
               accept="image/*"

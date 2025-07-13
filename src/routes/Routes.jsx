@@ -15,6 +15,9 @@ import MyReviews from "../pages/dashboard/user/MyReviews";
 import TransactionHistory from "../pages/dashboard/user/TransactionHistory";
 import RestaurantProfile from "../pages/dashboard/restaurant/RestaurantProfile";
 import AddDonation from "../pages/dashboard/restaurant/AddDonation";
+import MyDonations from "../pages/dashboard/restaurant/MyDonations";
+import RequestedDonations from "../pages/dashboard/restaurant/RequestedDonations";
+import CharityProfile from "../pages/dashboard/charity/CharityProfile";
 
 export const router = createBrowserRouter([
   {
@@ -89,8 +92,21 @@ export const router = createBrowserRouter([
       {
         path: "add-donation",
         element: <AddDonation></AddDonation>
+      },
+      {
+        path: "my-donations",
+        element: <MyDonations></MyDonations>
+      },
+      {
+        path: "requested-donations",
+        element: <RequestedDonations></RequestedDonations>
       }
-
+      // charity user role 
+      ,
+      {
+        path: "charity-profile",
+        element: <CharityProfile></CharityProfile>
+      }
     ],
   },
 ]);
