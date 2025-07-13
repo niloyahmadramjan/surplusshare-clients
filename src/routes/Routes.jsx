@@ -18,6 +18,8 @@ import AddDonation from "../pages/dashboard/restaurant/AddDonation";
 import MyDonations from "../pages/dashboard/restaurant/MyDonations";
 import RequestedDonations from "../pages/dashboard/restaurant/RequestedDonations";
 import CharityProfile from "../pages/dashboard/charity/CharityProfile";
+import MyRequests from "../pages/dashboard/charity/MyRequests";
+import MyPickups from "../pages/dashboard/charity/MyPickups";
 
 export const router = createBrowserRouter([
   {
@@ -106,6 +108,16 @@ export const router = createBrowserRouter([
       {
         path: "charity-profile",
         element: <CharityProfile></CharityProfile>
+      }
+      ,
+      {
+        path: "my-requests",
+        element: <MyRequests></MyRequests>
+      }
+      ,
+      {
+        path: "my-pickups",
+        element: <MyPickups></MyPickups>
       }
     ],
   },
