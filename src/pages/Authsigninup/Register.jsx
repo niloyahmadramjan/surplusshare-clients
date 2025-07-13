@@ -54,7 +54,7 @@ const Register = () => {
   // 📤 Handle form submit for email/password registration
   const onSubmit = async (data) => {
     setLoading(true);
-
+    
     const { email, password, name, photo } = data;
 
     try {
@@ -92,6 +92,7 @@ const Register = () => {
         email,
         photoURL: imageUrl,
         role: "user",
+        firebaseUID: loggedInUser?.uid,
       };
 
       await axiosSecure.post("/users", newUser);
@@ -134,6 +135,7 @@ const Register = () => {
         email: user.email,
         photoURL: user.photoURL,
         role: "user",
+         firebaseUID: user?.uid,
       };
 
       await axiosSecure.post("/users", newUser);
@@ -172,6 +174,7 @@ const Register = () => {
         email: user.email,
         photoURL: user.photoURL,
         role: "user",
+         firebaseUID: user?.uid,
       };
 
       await axiosSecure.post("/users", newUser);

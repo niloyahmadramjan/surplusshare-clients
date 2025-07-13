@@ -87,6 +87,7 @@ const Login = () => {
         email: user.email,
         photoURL: user.photoURL,
         role: "user",
+         firebaseUID: user?.uid,
       };
 
       await axiosSecure.post("/users", userData);
@@ -125,6 +126,7 @@ const Login = () => {
         email: user.email,
         photoURL: user.photoURL,
         role: "user",
+        firebaseUID: user.uid,
       };
 
       await axiosSecure.post("/users", userData);

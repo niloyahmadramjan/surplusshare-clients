@@ -23,6 +23,7 @@ import MyPickups from "../pages/dashboard/charity/MyPickups";
 import ReceivedDonations from "../pages/dashboard/charity/ReceivedDonations";
 import AdminProfile from "../pages/dashboard/admin/AdminProfile";
 import ManageDonations from "../pages/dashboard/admin/ManageDonations";
+import ManageUsers from "../pages/dashboard/admin/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -137,6 +138,11 @@ export const router = createBrowserRouter([
       {
         path: "manage-donations",
         element: <ManageDonations></ManageDonations>
+      }
+      ,
+      {
+        path: "manage-users",
+        element: <ManageUsers></ManageUsers>
       }
     ],
   },
