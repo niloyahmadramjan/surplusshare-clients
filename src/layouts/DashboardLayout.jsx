@@ -115,7 +115,7 @@ const DashboardLayout = () => {
               <FaHeart /> Received Donations
             </Link>
             <Link
-              to="charity-transactions"
+              to="user-transactions"
               className="btn btn-ghost justify-start"
             >
               <FaHistory /> Transaction History
