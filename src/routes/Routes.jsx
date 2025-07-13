@@ -21,6 +21,8 @@ import CharityProfile from "../pages/dashboard/charity/CharityProfile";
 import MyRequests from "../pages/dashboard/charity/MyRequests";
 import MyPickups from "../pages/dashboard/charity/MyPickups";
 import ReceivedDonations from "../pages/dashboard/charity/ReceivedDonations";
+import AdminProfile from "../pages/dashboard/admin/AdminProfile";
+import ManageDonations from "../pages/dashboard/admin/ManageDonations";
 
 export const router = createBrowserRouter([
   {
@@ -84,7 +86,7 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute>
       },
       {
-        path: "user-transactions",
+        path: "transactions-history",
         element: <PrivateRoute><TransactionHistory></TransactionHistory></PrivateRoute>
       },
       // restaurant user role 
@@ -124,6 +126,17 @@ export const router = createBrowserRouter([
       {
         path: "received-donations",
         element: <ReceivedDonations></ReceivedDonations>
+      }
+      // admin role 
+      ,
+      {
+        path: "admin-profile",
+        element: <AdminProfile></AdminProfile>
+      }
+      ,
+      {
+        path: "manage-donations",
+        element: <ManageDonations></ManageDonations>
       }
     ],
   },

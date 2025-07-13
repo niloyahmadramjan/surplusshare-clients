@@ -115,7 +115,7 @@ const DashboardLayout = () => {
               <FaHeart /> Received Donations
             </Link>
             <Link
-              to="user-transactions"
+              to="transactions-history"
               className="btn btn-ghost justify-start"
             >
               <FaHistory /> Transaction History
@@ -141,7 +141,7 @@ const DashboardLayout = () => {
               <FaClipboardList /> My Reviews
             </Link>
             <Link
-              to="user-transactions"
+              to="transactions-history"
               className="btn btn-ghost justify-start"
             >
               <FaHistory /> Transaction History
