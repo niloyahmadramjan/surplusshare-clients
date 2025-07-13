@@ -80,7 +80,7 @@ const ManageUsers = () => {
   const filteredUsers = filterUsers(users);
 
   return (
-    <div className="p-4 md:p-8 bg-gradient-to-br from-pink-100 to-blue-100 rounded-2xl shadow-xl overflow-x-auto">
+    <div className="p-4 md:p-8 h-screen bg-gradient-to-br from-pink-100 to-blue-100 rounded-2xl shadow-xl overflow-x-auto">
       <h2 className="text-2xl font-bold text-center text-pink-800 mb-4">Manage Users</h2>
 
       {/* 🔍 Search Bar */}

@@ -37,7 +37,7 @@ const ManageDonations = () => {
   }
 
   return (
-    <div className="p-4 lg:p-8 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl shadow-xl overflow-x-auto">
+    <div className="p-4 lg:p-8 h-screen bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl shadow-xl overflow-x-auto">
       <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
         Manage Donations
       </h2>
