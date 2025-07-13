@@ -25,6 +25,7 @@ import AdminProfile from "../pages/dashboard/admin/AdminProfile";
 import ManageDonations from "../pages/dashboard/admin/ManageDonations";
 import ManageUsers from "../pages/dashboard/admin/ManageUsers";
 import ManageRoleRequests from "../pages/dashboard/admin/ManageRoleRequests";
+import ManageRequests from "../pages/dashboard/admin/ManageRequests";
 
 export const router = createBrowserRouter([
   {
@@ -149,6 +150,11 @@ export const router = createBrowserRouter([
       {
         path: "manage-roles",
         element: <ManageRoleRequests></ManageRoleRequests>
+      }
+      ,
+      {
+        path: "manage-requests",
+        element: <ManageRequests></ManageRequests>
       }
     ],
   },

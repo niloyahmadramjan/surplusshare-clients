@@ -48,6 +48,7 @@ const DonationDetails = () => {
         donationId: id,
         description,
         pickupTime,
+        donation_title : null,
       });
     },
     onSuccess: () => toast.success("Request submitted!"),

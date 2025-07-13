@@ -36,36 +36,7 @@ const ManageRoleRequests = () => {
       toast.error("Failed to update request status");
     },
   });
-
-  const deleteMutation = useMutation({
-    mutationFn: async (id) => {
-      const res = await axiosSecure.delete(
-        `/admin/charity-role-requests/${id}`
-      );
-      return res.data;
-    },
-    onSuccess: () => {
-      toast.success("Role request deleted");
-      queryClient.invalidateQueries(["charity-role-requests"]);
-    },
-    onError: () => toast.error("Failed to delete request"),
-  });
-
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This request will be permanently deleted!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#e3342f",
-      cancelButtonColor: "#6c757d",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteMutation.mutate(id);
-      }
-    });
-  };
+  
 
   const handleAction = (id, email, status) => {
     Swal.fire({
@@ -133,34 +104,26 @@ const ManageRoleRequests = () => {
                 </span>
               </td>
               <td className="py-2">
-                <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
-                  {req.status === "Pending" && (
-                    <>
-                      <button
-                        className="btn btn-xs btn-success"
-                        onClick={() =>
-                          handleAction(req._id, req.email, "Approved")
-                        }
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="btn btn-xs btn-warning"
-                        onClick={() =>
-                          handleAction(req._id, req.email, "Rejected")
-                        }
-                      >
-                        Reject
-                      </button>
-                    </>
-                  )}
-                  <button
-                    className="btn btn-xs btn-error"
-                    onClick={() => handleDelete(req._id)}
-                  >
-                    Delete
-                  </button>
-                </div>
+                {req.status === "pending" && (
+                  <div className="flex flex-col sm:flex-row gap-2 justify-center items-center">
+                    <button
+                      className="btn btn-xs btn-success"
+                      onClick={() =>
+                        handleAction(req._id, req.email, "Approved")
+                      }
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="btn btn-xs btn-error"
+                      onClick={() =>
+                        handleAction(req._id, req.email, "Rejected")
+                      }
+                    >
+                      Reject
+                    </button>
+                  </div>
+                )}
               </td>
             </tr>
           ))}
