@@ -30,6 +30,7 @@ import FeatureDonations from "../pages/dashboard/admin/FeatureDonations";
 import AdminRoute from "./AdminRoute";
 import Unauthorized from "../pages/Unauthorized";
 import CharityRoute from "./CharityRoute";
+import RestaurantRoute from "./restaurantRoute";
 
 export const router = createBrowserRouter([
   {
@@ -123,19 +124,19 @@ export const router = createBrowserRouter([
       // restaurant user role
       {
         path: "restaurant-profile",
-        element: <RestaurantProfile></RestaurantProfile>,
+        element:  <RestaurantRoute><RestaurantProfile></RestaurantProfile></RestaurantRoute>,
       },
       {
         path: "add-donation",
-        element: <AddDonation></AddDonation>,
+        element: <RestaurantRoute><AddDonation></AddDonation> </RestaurantRoute>,
       },
       {
         path: "my-donations",
-        element: <MyDonations></MyDonations>,
+        element:  <RestaurantRoute><MyDonations></MyDonations></RestaurantRoute>,
       },
       {
         path: "requested-donations",
-        element: <RequestedDonations></RequestedDonations>,
+        element: <RestaurantRoute> <RequestedDonations></RequestedDonations></RestaurantRoute>,
       },
       // charity user role
       {
