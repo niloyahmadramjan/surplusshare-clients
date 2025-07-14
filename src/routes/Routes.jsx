@@ -29,6 +29,7 @@ import ManageRequests from "../pages/dashboard/admin/ManageRequests";
 import FeatureDonations from "../pages/dashboard/admin/FeatureDonations";
 import AdminRoute from "./AdminRoute";
 import Unauthorized from "../pages/Unauthorized";
+import CharityRoute from "./CharityRoute";
 
 export const router = createBrowserRouter([
   {
@@ -139,15 +140,15 @@ export const router = createBrowserRouter([
       // charity user role
       {
         path: "charity-profile",
-        element: <CharityProfile></CharityProfile>,
+        element:  <CharityRoute><CharityProfile></CharityProfile></CharityRoute>,
       },
       {
         path: "my-requests",
-        element: <MyRequests></MyRequests>,
+        element:  <CharityRoute><MyRequests></MyRequests></CharityRoute>,
       },
       {
         path: "my-pickups",
-        element: <MyPickups></MyPickups>,
+        element: <CharityRoute><MyPickups></MyPickups></CharityRoute>,
       },
       {
         path: "received-donations",

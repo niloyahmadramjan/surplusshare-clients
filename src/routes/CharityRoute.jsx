@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 
-const AdminRoute = ({ children }) => {
+const CharityRoute = ({ children }) => {
   const { user, loader } = useAuth();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
@@ -40,12 +40,12 @@ const AdminRoute = ({ children }) => {
   // Invalidate cache when needed (optional)
   queryClient.invalidateQueries(['user-role'])
 
-  // Allow only if role === 'admin'
-  if (userData?.role === "admin") {
+  // Allow only if role === 'charity'
+  if (userData?.role === "charity") {
     return children;
   }
 
   return <Navigate to="/unauthorized" state={{ from: location }} replace />;
 };
 
-export default AdminRoute;
+export default CharityRoute;
