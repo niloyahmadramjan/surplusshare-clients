@@ -22,6 +22,16 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [errorMessage,setErrorMessage]= useState("");
+////////////////////////////////////////////////////////////// optional just for login
+   const [show, setShow] = useState(false); 
+     const credentials = [
+    { role: "Normal User", email: "normal@user.com", password: "user123" },
+    { role: "Charity", email: "charity@jaagobangla.com", password: "charity123" },
+    { role: "Admin", email: "admin@johnking.com", password: "admin123" },
+    { role: "Restaurant", email: "restorent@barbqbd.com", password: "restorent123" },
+  ];
+
+  /////////////////////////////////////////////////////////////////////////////////////
 
   // handle firebase error 
   const handleError = (error)=>{
@@ -265,6 +275,31 @@ const Login = () => {
           className="max-w-xl mx-auto"
         />
       </div>
+      {/* ///////////////////////////////////////////////////////////////////////////////////// */}
+      <div className="fixed bottom-5 right-4 z-50">
+      <button
+        className="btn btn-sm btn-outline btn-secondary"
+        onClick={() => setShow(!show)}
+      >
+        {show ? "Hide Demo Logins" : "Show Demo Logins"}
+      </button>
+
+      {show && (
+        <div className="mt-2 bg-white shadow-xl rounded-lg p-4 w-80 text-sm border border-accent">
+          <h3 className="font-bold text-accent mb-2">Demo Accounts:</h3>
+          <ul className="space-y-2">
+            {credentials.map((cred, idx) => (
+              <li key={idx} className="border-b pb-2">
+                <p className="font-semibold">{cred.role}</p>
+                <p><span className="font-medium">Email:</span> {cred.email}</p>
+                <p><span className="font-medium">Password:</span> {cred.password}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+     {/* ///////////////////////////////////////////////////////////////////////////////////// */}
     </section>
   );
 };

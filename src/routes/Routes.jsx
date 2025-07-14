@@ -26,6 +26,9 @@ import ManageDonations from "../pages/dashboard/admin/ManageDonations";
 import ManageUsers from "../pages/dashboard/admin/ManageUsers";
 import ManageRoleRequests from "../pages/dashboard/admin/ManageRoleRequests";
 import ManageRequests from "../pages/dashboard/admin/ManageRequests";
+import FeatureDonations from "../pages/dashboard/admin/FeatureDonations";
+import AdminRoute from "./AdminRoute";
+import Unauthorized from "../pages/Unauthorized";
 
 export const router = createBrowserRouter([
   {
@@ -62,100 +65,147 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  // Dashboard component 
+  // Dashboard component
   {
     path: "/dashboard",
     Component: DashboardLayout,
     children: [
       {
         index: true,
-        element: <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <DashboardHome></DashboardHome>
+          </PrivateRoute>
+        ),
       },
-      // Normal user role 
+      // Normal user role
       {
         path: "my-profile",
-        element: <PrivateRoute><UserProfile></UserProfile></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <UserProfile></UserProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "request-charity-role",
-        element: <PrivateRoute><CharityRoleRequest></CharityRoleRequest></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <CharityRoleRequest></CharityRoleRequest>
+          </PrivateRoute>
+        ),
       },
       {
         path: "favorites",
-        element: <PrivateRoute><Favorites></Favorites></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <Favorites></Favorites>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-reviews",
-        element: <PrivateRoute><MyReviews></MyReviews></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <MyReviews></MyReviews>
+          </PrivateRoute>
+        ),
       },
       {
         path: "transactions-history",
-        element: <PrivateRoute><TransactionHistory></TransactionHistory></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <TransactionHistory></TransactionHistory>
+          </PrivateRoute>
+        ),
       },
-      // restaurant user role 
+      // restaurant user role
       {
         path: "restaurant-profile",
-        element: <RestaurantProfile></RestaurantProfile>
+        element: <RestaurantProfile></RestaurantProfile>,
       },
       {
         path: "add-donation",
-        element: <AddDonation></AddDonation>
+        element: <AddDonation></AddDonation>,
       },
       {
         path: "my-donations",
-        element: <MyDonations></MyDonations>
+        element: <MyDonations></MyDonations>,
       },
       {
         path: "requested-donations",
-        element: <RequestedDonations></RequestedDonations>
-      }
-      // charity user role 
-      ,
+        element: <RequestedDonations></RequestedDonations>,
+      },
+      // charity user role
       {
         path: "charity-profile",
-        element: <CharityProfile></CharityProfile>
-      }
-      ,
+        element: <CharityProfile></CharityProfile>,
+      },
       {
         path: "my-requests",
-        element: <MyRequests></MyRequests>
-      }
-      ,
+        element: <MyRequests></MyRequests>,
+      },
       {
         path: "my-pickups",
-        element: <MyPickups></MyPickups>
-      }
-      ,
+        element: <MyPickups></MyPickups>,
+      },
       {
         path: "received-donations",
-        element: <ReceivedDonations></ReceivedDonations>
-      }
-      // admin role 
-      ,
+        element: <ReceivedDonations></ReceivedDonations>,
+      },
+      // admin role
       {
         path: "admin-profile",
-        element: <AdminProfile></AdminProfile>
-      }
-      ,
+        element: (
+          <AdminRoute>
+            <AdminProfile></AdminProfile>
+          </AdminRoute>
+        ),
+      },
       {
         path: "manage-donations",
-        element: <ManageDonations></ManageDonations>
-      }
-      ,
+        element: (
+          <AdminRoute>
+            <ManageDonations></ManageDonations>
+          </AdminRoute>
+        ),
+      },
       {
         path: "manage-users",
-        element: <ManageUsers></ManageUsers>
-      }
-      ,
+        element: (
+          <AdminRoute>
+            <ManageUsers></ManageUsers>
+          </AdminRoute>
+        ),
+      },
       {
         path: "manage-roles",
-        element: <ManageRoleRequests></ManageRoleRequests>
-      }
-      ,
+        element: (
+          <AdminRoute>
+            <ManageRoleRequests></ManageRoleRequests>
+          </AdminRoute>
+        ),
+      },
       {
         path: "manage-requests",
-        element: <ManageRequests></ManageRequests>
-      }
+        element: (
+          <ManageRoleRequests>
+            <ManageRequests></ManageRequests>
+          </ManageRoleRequests>
+        ),
+      },
+      {
+        path: "feature-donations",
+        element: (
+          <ManageRequests>
+            <FeatureDonations></FeatureDonations>
+          </ManageRequests>
+        ),
+      },
     ],
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized></Unauthorized>,
   },
 ]);
