@@ -1,91 +1,113 @@
 import { createBrowserRouter } from "react-router";
+
+// Layouts
 import MainLayout from "../layouts/MainLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
+
+// Public Pages
 import Home from "../pages/Home/Home";
 import Login from "../pages/Authsigninup/Login";
 import Register from "../pages/Authsigninup/Register";
 import AllDonations from "../pages/AllDonations/AllDonations";
-import PrivateRoute from "./PrivateRoute";
 import DonationDetails from "../pages/DonationDetails/DonationDetails";
+
+// Dashboard Pages - Shared
 import DashboardHome from "../pages/dashboard/DashboardHome";
-import DashboardLayout from "../layouts/DashboardLayout";
+
+// User Pages
 import UserProfile from "../pages/dashboard/user/UserProfile";
 import CharityRoleRequest from "../pages/dashboard/user/RequestCharityRole";
 import Favorites from "../pages/dashboard/user/Favorites";
 import MyReviews from "../pages/dashboard/user/MyReviews";
 import TransactionHistory from "../pages/dashboard/user/TransactionHistory";
+
+// Restaurant Pages
 import RestaurantProfile from "../pages/dashboard/restaurant/RestaurantProfile";
 import AddDonation from "../pages/dashboard/restaurant/AddDonation";
 import MyDonations from "../pages/dashboard/restaurant/MyDonations";
 import RequestedDonations from "../pages/dashboard/restaurant/RequestedDonations";
+
+// Charity Pages
 import CharityProfile from "../pages/dashboard/charity/CharityProfile";
 import MyRequests from "../pages/dashboard/charity/MyRequests";
 import MyPickups from "../pages/dashboard/charity/MyPickups";
 import ReceivedDonations from "../pages/dashboard/charity/ReceivedDonations";
+
+// Admin Pages
 import AdminProfile from "../pages/dashboard/admin/AdminProfile";
 import ManageDonations from "../pages/dashboard/admin/ManageDonations";
 import ManageUsers from "../pages/dashboard/admin/ManageUsers";
 import ManageRoleRequests from "../pages/dashboard/admin/ManageRoleRequests";
 import ManageRequests from "../pages/dashboard/admin/ManageRequests";
 import FeatureDonations from "../pages/dashboard/admin/FeatureDonations";
+
+// Routes and protection
+import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
-import Unauthorized from "../pages/Unauthorized";
 import CharityRoute from "./CharityRoute";
 import RestaurantRoute from "./restaurantRoute";
 
+// Unauthorized Page
+import Unauthorized from "../pages/Unauthorized";
+
+// Route Configuration
 export const router = createBrowserRouter([
+  // =======================
+  // Public Routes (MainLayout)
+  // =======================
   {
     path: "/",
     Component: MainLayout,
     children: [
+      { index: true, Component: Home }, // Home Page
+      { path: "login", Component: Login }, // Login Page
+      { path: "register", Component: Register }, // Register Page
+
+      // Protected: All Donations
       {
-        index: true,
-        Component: Home,
-      },
-      {
-        path: "/login",
-        Component: Login,
-      },
-      {
-        path: "/register",
-        Component: Register,
-      },
-      {
-        path: "/donations",
+        path: "donations",
         element: (
           <PrivateRoute>
-            <AllDonations></AllDonations>
+            <AllDonations />
           </PrivateRoute>
         ),
       },
+
+      // Protected: Donation Details by ID
       {
-        path: "/donation/:id",
+        path: "donation/:id",
         element: (
           <PrivateRoute>
-            <DonationDetails></DonationDetails>
+            <DonationDetails />
           </PrivateRoute>
         ),
       },
     ],
   },
-  // Dashboard component
+
+  // =======================
+  // Dashboard Routes (DashboardLayout)
+  // =======================
   {
     path: "/dashboard",
     Component: DashboardLayout,
     children: [
+      // Dashboard Home (Protected)
       {
         index: true,
         element: (
           <PrivateRoute>
-            <DashboardHome></DashboardHome>
+            <DashboardHome />
           </PrivateRoute>
         ),
       },
-      // Normal user role
+
+      // ===== Normal User Routes =====
       {
         path: "my-profile",
         element: (
           <PrivateRoute>
-            <UserProfile></UserProfile>
+            <UserProfile />
           </PrivateRoute>
         ),
       },
@@ -93,7 +115,7 @@ export const router = createBrowserRouter([
         path: "request-charity-role",
         element: (
           <PrivateRoute>
-            <CharityRoleRequest></CharityRoleRequest>
+            <CharityRoleRequest />
           </PrivateRoute>
         ),
       },
@@ -101,7 +123,7 @@ export const router = createBrowserRouter([
         path: "favorites",
         element: (
           <PrivateRoute>
-            <Favorites></Favorites>
+            <Favorites />
           </PrivateRoute>
         ),
       },
@@ -109,7 +131,7 @@ export const router = createBrowserRouter([
         path: "my-reviews",
         element: (
           <PrivateRoute>
-            <MyReviews></MyReviews>
+            <MyReviews />
           </PrivateRoute>
         ),
       },
@@ -117,50 +139,85 @@ export const router = createBrowserRouter([
         path: "transactions-history",
         element: (
           <PrivateRoute>
-            <TransactionHistory></TransactionHistory>
+            <TransactionHistory />
           </PrivateRoute>
         ),
       },
-      // restaurant user role
+
+      // ===== Restaurant Routes =====
       {
         path: "restaurant-profile",
-        element:  <RestaurantRoute><RestaurantProfile></RestaurantProfile></RestaurantRoute>,
+        element: (
+          <RestaurantRoute>
+            <RestaurantProfile />
+          </RestaurantRoute>
+        ),
       },
       {
         path: "add-donation",
-        element: <RestaurantRoute><AddDonation></AddDonation> </RestaurantRoute>,
+        element: (
+          <RestaurantRoute>
+            <AddDonation />
+          </RestaurantRoute>
+        ),
       },
       {
         path: "my-donations",
-        element:  <RestaurantRoute><MyDonations></MyDonations></RestaurantRoute>,
+        element: (
+          <RestaurantRoute>
+            <MyDonations />
+          </RestaurantRoute>
+        ),
       },
       {
         path: "requested-donations",
-        element: <RestaurantRoute> <RequestedDonations></RequestedDonations></RestaurantRoute>,
+        element: (
+          <RestaurantRoute>
+            <RequestedDonations />
+          </RestaurantRoute>
+        ),
       },
-      // charity user role
+
+      // ===== Charity Routes =====
       {
         path: "charity-profile",
-        element:  <CharityRoute><CharityProfile></CharityProfile></CharityRoute>,
+        element: (
+          <CharityRoute>
+            <CharityProfile />
+          </CharityRoute>
+        ),
       },
       {
         path: "my-requests",
-        element:  <CharityRoute><MyRequests></MyRequests></CharityRoute>,
+        element: (
+          <CharityRoute>
+            <MyRequests />
+          </CharityRoute>
+        ),
       },
       {
         path: "my-pickups",
-        element: <CharityRoute><MyPickups></MyPickups></CharityRoute>,
+        element: (
+          <CharityRoute>
+            <MyPickups />
+          </CharityRoute>
+        ),
       },
       {
         path: "received-donations",
-        element: <ReceivedDonations></ReceivedDonations>,
+        element: (
+          <CharityRoute>
+            <ReceivedDonations />
+          </CharityRoute>
+        ),
       },
-      // admin role
+
+      // ===== Admin Routes =====
       {
         path: "admin-profile",
         element: (
           <AdminRoute>
-            <AdminProfile></AdminProfile>
+            <AdminProfile />
           </AdminRoute>
         ),
       },
@@ -168,7 +225,7 @@ export const router = createBrowserRouter([
         path: "manage-donations",
         element: (
           <AdminRoute>
-            <ManageDonations></ManageDonations>
+            <ManageDonations />
           </AdminRoute>
         ),
       },
@@ -176,7 +233,7 @@ export const router = createBrowserRouter([
         path: "manage-users",
         element: (
           <AdminRoute>
-            <ManageUsers></ManageUsers>
+            <ManageUsers />
           </AdminRoute>
         ),
       },
@@ -184,30 +241,34 @@ export const router = createBrowserRouter([
         path: "manage-roles",
         element: (
           <AdminRoute>
-            <ManageRoleRequests></ManageRoleRequests>
+            <ManageRoleRequests />
           </AdminRoute>
         ),
       },
       {
         path: "manage-requests",
         element: (
-          <ManageRoleRequests>
-            <ManageRequests></ManageRequests>
-          </ManageRoleRequests>
+          <AdminRoute>
+            <ManageRequests />
+          </AdminRoute>
         ),
       },
       {
         path: "feature-donations",
         element: (
-          <ManageRequests>
-            <FeatureDonations></FeatureDonations>
-          </ManageRequests>
+          <AdminRoute>
+            <FeatureDonations />
+          </AdminRoute>
         ),
       },
     ],
   },
+
+  // =======================
+  // Unauthorized Route
+  // =======================
   {
     path: "/unauthorized",
-    element: <Unauthorized></Unauthorized>,
+    element: <Unauthorized />,
   },
 ]);
