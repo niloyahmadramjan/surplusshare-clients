@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const ManageRequests = () => {
   const axiosSecure = useAxiosSecure();
@@ -46,7 +47,7 @@ const ManageRequests = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center py-10 text-primary text-lg">Loading requests...</div>;
+    return <FoodAnimation></FoodAnimation>
   }
 
   return (

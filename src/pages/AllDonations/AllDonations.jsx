@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { Clock, MapPin } from 'lucide-react';
+import FoodAnimation from '../LoadingAnimation/FoodLoading';
 
 const getStatusClass = (status) => {
   switch (status) {
@@ -31,7 +32,7 @@ const AllDonations = () => {
     }
   });
 
-  if (isLoading) return <div className="text-center py-20">Loading...</div>;
+  if (isLoading) return <FoodAnimation></FoodAnimation>
   if (isError) return <div className="text-center text-red-500">Error loading donations</div>;
 
   const visibleDonations = showAll ? donations : donations.slice(0, 8);

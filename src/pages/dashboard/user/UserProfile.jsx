@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { MapPin, Mail, BadgeCheck } from "lucide-react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const UserProfile = () => {
   const { user } = useAuth();
@@ -17,11 +18,7 @@ const UserProfile = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-40">
-        <span className="loading loading-bars text-primary"></span>
-      </div>
-    );
+    return <FoodAnimation></FoodAnimation>
   }
 
   const { name, email, photoURL, role, contact = "Not added", lastLoginAt } = userData;

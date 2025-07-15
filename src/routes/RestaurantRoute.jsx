@@ -2,6 +2,7 @@ import { Navigate, useLocation } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import FoodAnimation from "../pages/LoadingAnimation/FoodLoading";
 
 const RestaurantRoute = ({ children }) => {
   const { user, loader } = useAuth();
@@ -25,11 +26,7 @@ const RestaurantRoute = ({ children }) => {
 
   // If auth loading or query loading
   if (loader || isLoading) {
-    return (
-      <p className="text-center py-8">
-        Loading......
-      </p>
-    );
+    return <FoodAnimation></FoodAnimation>
   }
 
   // If API failed

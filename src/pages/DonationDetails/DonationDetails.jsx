@@ -5,6 +5,7 @@ import { Clock, MapPin, User, Heart, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import FoodAnimation from "../LoadingAnimation/FoodLoading";
 
 const DonationDetails = () => {
   const { id } = useParams();
@@ -75,7 +76,7 @@ const DonationDetails = () => {
     onError: () => toast.error("Failed to submit review."),
   });
 
-  if (isLoading) return <div className="text-center py-20">Loading...</div>;
+  if (isLoading) return <FoodAnimation></FoodAnimation>;
   if (isError || !donation)
     return (
       <div className="text-center text-red-500">Error loading donation</div>

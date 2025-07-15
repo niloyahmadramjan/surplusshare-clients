@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { formatDistanceToNow } from "date-fns";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const MyReviews = () => {
   const axiosSecure = useAxiosSecure();
@@ -29,7 +30,7 @@ const MyReviews = () => {
     onError: () => toast.error("Failed to delete review."),
   });
 
-  if (isLoading) return <div className="text-center py-10">Loading...</div>;
+  if (isLoading) return <FoodAnimation></FoodAnimation>;
 
   return (
     <div className="p-4 md:p-10">

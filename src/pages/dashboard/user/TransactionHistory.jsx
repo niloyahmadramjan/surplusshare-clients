@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const TransactionHistory = () => {
   const axiosSecure = useAxiosSecure();
@@ -16,7 +17,7 @@ const TransactionHistory = () => {
     enabled: !!user?.email,
   });
 
-  if (isLoading) return <div className="text-center py-10">Loading...</div>;
+  if (isLoading) return <FoodAnimation></FoodAnimation>
 
   return (
     <div className="overflow-x-auto p-4 md:p-8">

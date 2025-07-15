@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const ManageRoleRequests = () => {
   const axiosSecure = useAxiosSecure();
@@ -55,11 +56,7 @@ const ManageRoleRequests = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="text-center py-10 text-primary text-lg">
-        Loading requests...
-      </div>
-    );
+    return <FoodAnimation></FoodAnimation>
   }
 
   return (

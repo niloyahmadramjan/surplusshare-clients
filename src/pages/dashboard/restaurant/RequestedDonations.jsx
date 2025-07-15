@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const RequestedDonations = () => {
   const axiosSecure = useAxiosSecure();
@@ -51,7 +52,7 @@ const RequestedDonations = () => {
     });
   };
 
-  if (isLoading) return <div className="text-center py-20">Loading...</div>;
+  if (isLoading) return <FoodAnimation></FoodAnimation>
 
   return (
   <div className="max-w-7xl mx-auto px-4 py-8">

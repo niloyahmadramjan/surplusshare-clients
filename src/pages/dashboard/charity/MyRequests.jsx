@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const MyRequests = () => {
   const { user } = useAuth();
@@ -38,7 +39,7 @@ const MyRequests = () => {
       </h2>
 
       {isLoading ? (
-        <div className="text-center py-6">Loading requests...</div>
+        <FoodAnimation></FoodAnimation>
       ) : requests.length === 0 ? (
         <p className="text-base-content/70">
           You haven't made any donation requests yet.

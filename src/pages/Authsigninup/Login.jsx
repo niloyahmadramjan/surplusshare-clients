@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { firebaseErrorMessage } from "../../utils/firebaseErrorMessage";
 import { useState } from "react";
+import FoodAnimation from "../LoadingAnimation/FoodLoading";
 
 const Login = () => {
   const {
@@ -16,6 +17,7 @@ const Login = () => {
     handleGithubLogin,
     setLoader,
     setUser,
+    loader,
   } = useAuth();
 
   const axiosSecure = useAxiosSecure();
@@ -161,6 +163,10 @@ const Login = () => {
       setLoader(false);
     }
   };
+
+  if(loader){
+    return <FoodAnimation></FoodAnimation>
+  }
 
   return (
     <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-base-100">

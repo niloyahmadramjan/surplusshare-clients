@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { toast } from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const UserFavorites = () => {
   const { user } = useAuth();
@@ -34,7 +35,7 @@ const UserFavorites = () => {
   });
 
   if (isLoading) {
-    return <div className="text-center py-10">Loading favorites...</div>;
+    return <FoodAnimation></FoodAnimation>
   }
 
   if (!favorites.length) {

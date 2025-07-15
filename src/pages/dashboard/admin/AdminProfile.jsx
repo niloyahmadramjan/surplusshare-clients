@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const AdminProfile = () => {
   const { user } = useAuth();
@@ -16,11 +17,7 @@ const AdminProfile = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="text-center py-10 text-primary text-lg">
-        Loading profile...
-      </div>
-    );
+    return <FoodAnimation></FoodAnimation>
   }
 
   return (

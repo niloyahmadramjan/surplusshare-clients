@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import {
   FaHome,
   FaUser,
@@ -16,10 +16,12 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import FoodAnimation from "../pages/LoadingAnimation/FoodLoading";
 
 const DashboardLayout = () => {
   const { user, handleLogOut } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate()
 
   const {
     data: userData,
@@ -34,14 +36,20 @@ const DashboardLayout = () => {
     },
   });
 
+  const handleUserLogOut= ()=>{
+    handleLogOut();
+    navigate("/")
+    
+  }
+
   if (isLoading)
-    return <span className="loading loading-spinner text-error"></span>;
+    return <FoodAnimation></FoodAnimation>
   if (isError)
     return (
       <p className="text-center text-red-500">Failed to fetch user data.</p>
     );
 
-  const role = userData?.role || "user"; // Default to "user"
+  const role = userData?.role || "user"; 
 
   const renderLinks = () => {
     switch (role) {
@@ -161,7 +169,7 @@ const DashboardLayout = () => {
           <FaHome /> Home
         </Link>
         <button
-          onClick={() => handleLogOut()}
+          onClick={handleUserLogOut}
           className="btn btn-ghost justify-start"
         >
           <FaSignOutAlt /> Logout
@@ -212,7 +220,7 @@ const DashboardLayout = () => {
               <li>
                 <button
                   onClick={() => {
-                    handleLogOut();
+                    handleUserLogOut();
                     document.getElementById("mobile-drawer").checked = false;
                   }}
                 >

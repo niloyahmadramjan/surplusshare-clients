@@ -6,6 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const MyDonations = () => {
   const axiosSecure = useAxiosSecure();
@@ -98,7 +99,7 @@ const MyDonations = () => {
     });
   };
 
-  if (isLoading) return <div className="text-center py-20">Loading...</div>;
+  if (isLoading) return <FoodAnimation></FoodAnimation>
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

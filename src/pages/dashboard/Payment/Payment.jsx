@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import PaymentCard from "./PaymentCard";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const Payment = ({ formData, onSuccess }) => {
   const axiosSecure = useAxiosSecure();
@@ -19,9 +20,7 @@ const Payment = ({ formData, onSuccess }) => {
   }, [formData, axiosSecure]);
 
   if (!clientSecret) {
-    return (
-      <p className="text-center text-base-content mt-6">Loading Stripe...</p>
-    );
+    return <FoodAnimation></FoodAnimation>
   }
 
   return (

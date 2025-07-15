@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const MyPickups = () => {
   const { user } = useAuth();
@@ -37,7 +38,7 @@ const MyPickups = () => {
       <h2 className="text-2xl font-bold text-primary mb-6">My Pickups</h2>
 
       {isLoading ? (
-        <div className="text-center py-6">Loading pickups...</div>
+        <FoodAnimation></FoodAnimation>
       ) : pickups.length === 0 ? (
         <p className="text-base-content/70">No accepted requests yet.</p>
       ) : (

@@ -10,6 +10,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import axios from "axios";
 import { auth } from "../../services/authService";
 import { firebaseErrorMessage } from "../../utils/firebaseErrorMessage";
+import FoodAnimation from "../LoadingAnimation/FoodLoading";
 
 const Register = () => {
   const {
@@ -19,6 +20,7 @@ const Register = () => {
     updateUserProfile,
     setLoader,
     setUser,
+    loader
   } = useAuth();
 
   const axiosSecure = useAxiosSecure();
@@ -199,6 +201,9 @@ const Register = () => {
       setLoader(false);
     }
   };
+  if(loader){
+    return <FoodAnimation></FoodAnimation>
+  }
 
   return (
     <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-base-100">

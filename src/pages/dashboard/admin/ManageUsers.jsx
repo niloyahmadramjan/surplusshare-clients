@@ -3,6 +3,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -74,7 +75,7 @@ const ManageUsers = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center py-10 text-primary text-lg">Loading users...</div>;
+    return <FoodAnimation></FoodAnimation>
   }
 
   const filteredUsers = filterUsers(users);

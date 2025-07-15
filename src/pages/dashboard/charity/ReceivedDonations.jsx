@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
 const ReceivedDonations = () => {
   const { user } = useAuth();
@@ -57,7 +58,7 @@ const ReceivedDonations = () => {
       <h2 className="text-2xl font-bold text-primary mb-6">Received Donations</h2>
 
       {isLoading ? (
-        <p>Loading...</p>
+        <FoodAnimation></FoodAnimation>
       ) : donations.length === 0 ? (
         <p className="text-base-content/70">You haven't picked up any donations yet.</p>
       ) : (
