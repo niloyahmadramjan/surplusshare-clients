@@ -13,3 +13,8 @@
   --color-warning: #ffd54f;
   --color-error: #e57373;
 }
+
+html {
+  scrollbar-gutter: stable;
+}
+

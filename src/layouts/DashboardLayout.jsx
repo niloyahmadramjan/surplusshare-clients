@@ -21,7 +21,7 @@ import FoodAnimation from "../pages/LoadingAnimation/FoodLoading";
 const DashboardLayout = () => {
   const { user, handleLogOut } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     data: userData,
@@ -36,95 +36,166 @@ const DashboardLayout = () => {
     },
   });
 
-  const handleUserLogOut= ()=>{
+  const handleUserLogOut = () => {
+    navigate("/");
     handleLogOut();
-    navigate("/")
-    
-  }
+  };
 
-  if (isLoading)
-    return <FoodAnimation></FoodAnimation>
+  if (isLoading) return <FoodAnimation />;
   if (isError)
     return (
       <p className="text-center text-red-500">Failed to fetch user data.</p>
     );
 
-  const role = userData?.role || "user"; 
+  const role = userData?.role || "user";
 
   const renderLinks = () => {
     switch (role) {
       case "admin":
         return (
           <>
-            <Link to="admin-profile" className="btn btn-ghost justify-start">
+            <Link
+              to="admin-profile"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaUserShield /> Admin Profile
             </Link>
-            <Link to="manage-donations" className="btn btn-ghost justify-start">
+            <Link
+              to="manage-donations"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaClipboardList /> Manage Donations
             </Link>
-            <Link to="manage-users" className="btn btn-ghost justify-start">
+            <Link
+              to="manage-users"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaUser /> Manage Users
             </Link>
-            <Link to="manage-roles" className="btn btn-ghost justify-start">
+            <Link
+              to="manage-roles"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaClipboardList /> Manage Role Requests
             </Link>
-            <Link to="manage-requests" className="btn btn-ghost justify-start">
+            <Link
+              to="manage-requests"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaClipboardList /> Manage Requests
             </Link>
             <Link
               to="feature-donations"
               className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
             >
               <FaStar /> Feature Donations
             </Link>
           </>
         );
-
       case "restaurant":
         return (
           <>
             <Link
               to="restaurant-profile"
               className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
             >
               <FaUserShield /> Restaurant Profile
             </Link>
-            <Link to="add-donation" className="btn btn-ghost justify-start">
+            <Link
+              to="add-donation"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaPlusCircle /> Add Donation
             </Link>
-            <Link to="my-donations" className="btn btn-ghost justify-start">
+            <Link
+              to="my-donations"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaClipboardList /> My Donations
             </Link>
             <Link
               to="requested-donations"
               className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
             >
               <FaClipboardList /> Requested Donations
             </Link>
           </>
         );
-
       case "charity":
         return (
           <>
-            <Link to="charity-profile" className="btn btn-ghost justify-start">
+            <Link
+              to="charity-profile"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaUser /> Charity Profile
             </Link>
-            <Link to="my-requests" className="btn btn-ghost justify-start">
+            <Link
+              to="my-requests"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaClipboardList /> My Requests
             </Link>
-            <Link to="my-pickups" className="btn btn-ghost justify-start">
+            <Link
+              to="my-pickups"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaClipboardList /> My Pickups
             </Link>
             <Link
               to="received-donations"
               className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
             >
               <FaHeart /> Received Donations
             </Link>
             <Link
               to="transactions-history"
               className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
             >
               <FaHistory /> Transaction History
             </Link>
@@ -133,24 +204,48 @@ const DashboardLayout = () => {
       default:
         return (
           <>
-            <Link to="my-profile" className="btn btn-ghost justify-start">
+            <Link
+              to="my-profile"
+              className="btn btn-ghost justify-start "
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaUser /> My Profile
             </Link>
             <Link
               to="request-charity-role"
               className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
             >
               <FaHandsHelping /> Request Charity Role
             </Link>
-            <Link to="favorites" className="btn btn-ghost justify-start">
+            <Link
+              to="favorites"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaHeart /> Favorites
             </Link>
-            <Link to="my-reviews" className="btn btn-ghost justify-start">
+            <Link
+              to="my-reviews"
+              className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
+            >
               <FaClipboardList /> My Reviews
             </Link>
             <Link
               to="transactions-history"
               className="btn btn-ghost justify-start"
+              onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              }
             >
               <FaHistory /> Transaction History
             </Link>
@@ -160,78 +255,56 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="min-h-screen flex w-full">
-      {/* Sidebar */}
-      <div className="hidden lg:flex flex-col w-64 fixed top-0 left-0 h-full bg-base-200 p-4 shadow z-30">
-        <h2 className="text-xl font-bold mb-4">Dashboard</h2>
-        {renderLinks()}
-        <Link to="/" className="btn btn-ghost justify-start">
-          <FaHome /> Home
-        </Link>
-        <button
-          onClick={handleUserLogOut}
-          className="btn btn-ghost justify-start"
-        >
-          <FaSignOutAlt /> Logout
-        </button>
-      </div>
+    <div className="drawer drawer-start lg:drawer-open">
+  <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
 
-      {/* Main Content */}
-      <div className="flex-1 lg:ml-64">
-        {/* Top Navbar for mobile */}
-        <div className="navbar bg-base-100 sticky top-0 z-40 lg:hidden shadow px-4 justify-between">
-          <label htmlFor="mobile-drawer" className="btn btn-ghost btn-circle">
-            <FaBars className="text-xl" />
-          </label>
-          <div className="flex items-center gap-2">
-            <span className="font-medium text-sm">
-              {user?.displayName || "User"}
-            </span>
-            <img
-              src={user?.photoURL}
-              alt="User"
-              className="w-8 h-8 rounded-full object-cover"
-            />
-          </div>
-        </div>
-
-        {/* Page Content */}
-        <div className="p-4 min-h-[calc(100vh-64px)]">
-          <Outlet />
-        </div>
-
-        {/* Drawer for mobile */}
-        <div className="drawer  drawer-start lg:hidden z-50">
-          <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-side top-[65px]">
-            <label htmlFor="mobile-drawer" className="drawer h-full"></label>
-            <ul className="menu  min-h-full p-4 w-60 bg-base-100 text-base-content">
-              {renderLinks()}
-              <li>
-                <Link
-                  to="/"
-                  onClick={() =>
-                    (document.getElementById("mobile-drawer").checked = false)
-                  }
-                >
-                  <FaHome /> Home
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    handleUserLogOut();
-                    document.getElementById("mobile-drawer").checked = false;
-                  }}
-                >
-                  <FaSignOutAlt /> Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
+  {/* Main content area */}
+  <div className="drawer-content flex flex-col w-full h-screen">
+    {/* Mobile navbar (only visible on small screen) */}
+    <div className="fixed top-0 left-0 right-0 z-40 bg-base-100/80 backdrop-blur-md shadow-md px-4 flex items-center justify-between h-16 lg:hidden">
+      <label htmlFor="mobile-drawer" className="btn btn-ghost btn-circle">
+        <FaBars className="text-xl" />
+      </label>
+      <div className="flex items-center gap-2 overflow-hidden">
+        <span className="font-medium text-sm truncate max-w-[100px]">
+          {user?.displayName || "User"}
+        </span>
+        <img
+          src={user?.photoURL}
+          alt="User"
+          className="w-8 h-8 rounded-full object-cover"
+        />
       </div>
     </div>
+
+    {/* Main dashboard content here */}
+    <div className="mt-20 md:mt-0 p-2 overflow-y-auto">
+      <Outlet></Outlet>
+    </div>
+  </div>
+
+  {/* Sidebar / Drawer content */}
+  <div className="drawer-side z-50">
+    <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
+    <div className="menu p-4 w-64 min-h-full bg-base-200">
+      <h2 className="text-xl font-bold mb-4">Dashboard</h2>
+      {renderLinks()}
+      <Link to="/" className="btn btn-ghost justify-start">
+        <FaHome /> Home
+      </Link>
+      <button
+        onClick={() => {
+          handleUserLogOut();
+          document.getElementById("mobile-drawer").checked = false;
+        }}
+        className="btn btn-ghost justify-start"
+      >
+        <FaSignOutAlt /> Logout
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 };
 

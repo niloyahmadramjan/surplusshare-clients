@@ -17,19 +17,24 @@ const AdminProfile = () => {
   });
 
   if (isLoading) {
-    return <FoodAnimation></FoodAnimation>
+    return <FoodAnimation />;
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-gradient-to-r from-indigo-100 to-blue-50 p-6 rounded-2xl shadow-lg mt-10">
-      <div className="flex flex-col items-center gap-4 text-center">
+    <div className="max-w-xl mx-auto mt-10 px-4">
+      <div className="bg-gradient-to-r from-indigo-100 to-blue-50 p-6 rounded-2xl shadow-lg text-center space-y-4">
         <img
-          src={admin.photoURL || "https://i.ibb.co/0jWcFq9/admin-avatar.png"}
+          src={admin.photoURL}
           alt="Admin"
-          className="w-28 h-28 rounded-full border-4 border-blue-500 shadow"
+          className="w-28 h-28 rounded-full border-4 border-blue-500 shadow mx-auto"
         />
-        <h2 className="text-2xl font-semibold text-blue-700">{admin.name}</h2>
-        <p className="text-sm bg-blue-100 text-blue-600 px-4 py-1 rounded-full font-medium uppercase tracking-wide">
+        <h2 className="text-2xl font-semibold text-blue-700 break-words">
+          {admin.name || "Admin Name"}
+        </h2>
+        <p className="text-sm text-gray-600 break-words">
+          Email: {admin.email || "N/A"}
+        </p>
+        <p className="text-sm bg-blue-100 text-blue-600 inline-block px-4 py-1 rounded-full font-medium uppercase tracking-wide">
           Role: {admin.role || "Admin"}
         </p>
         {admin.lastLoginAt && (

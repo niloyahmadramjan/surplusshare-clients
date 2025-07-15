@@ -3,7 +3,7 @@ import animationData from "../../assets/lottieanimation/Food Loading Animation.j
 
 const FoodAnimation = () => {
   return (
-    <div className="w-full h-full flex justify-center items-center  backdrop-blur-md">
+    <div className="w-full h-screen flex justify-center items-center  backdrop-blur-md">
       <Lottie animationData={animationData} loop/>
     </div>
   );

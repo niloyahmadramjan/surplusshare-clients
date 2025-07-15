@@ -3,7 +3,7 @@ import axios from "axios";
 import { auth } from "../services/authService";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000", 
+  baseURL: "https://surplus-share-server.vercel.app", 
 });
 
 const useAxiosSecure = () => {
