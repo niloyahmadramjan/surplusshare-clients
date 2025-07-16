@@ -1,39 +1,74 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { Link } from 'react-router';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
-import { Clock, MapPin } from 'lucide-react';
-import FoodAnimation from '../LoadingAnimation/FoodLoading';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { Link } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Clock, MapPin } from "lucide-react";
+import FoodAnimation from "../LoadingAnimation/FoodLoading";
+import { toast } from "react-hot-toast";
+import { FaHeart } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
 
 const getStatusClass = (status) => {
   switch (status) {
-    case 'Available':
-      return 'bg-success text-white text-xs px-3 py-1 rounded-full';
-    case 'Requested':
-      return 'bg-warning text-white text-xs px-3 py-1 rounded-full';
-    case 'Picked Up':
-      return 'bg-info text-white text-xs px-3 py-1 rounded-full';
-    case 'Accepted':
-      return 'bg-secondary text-white text-xs px-3 py-1 rounded-full';
+    case "Available":
+      return "bg-success text-white text-xs px-3 py-1 rounded-full";
+    case "Requested":
+      return "bg-warning text-white text-xs px-3 py-1 rounded-full";
+    case "Picked Up":
+      return "bg-info text-white text-xs px-3 py-1 rounded-full";
+    case "Accepted":
+      return "bg-secondary text-white text-xs px-3 py-1 rounded-full";
     default:
-      return 'bg-accent text-white text-xs px-3 py-1 rounded-full';
+      return "bg-accent text-white text-xs px-3 py-1 rounded-full";
   }
 };
 
 const AllDonations = () => {
-  const axiosSecure = useAxiosSecure();
+ const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const [showAll, setShowAll] = useState(false);
 
   const { data: donations = [], isLoading, isError } = useQuery({
-    queryKey: ['donations'],
+    queryKey: ["donations"],
     queryFn: async () => {
-      const res = await axiosSecure.get('/admin/verified-donations');
+      const res = await axiosSecure.get("/admin/verified-donations");
       return res.data;
-    }
+    },
   });
 
-  if (isLoading) return <FoodAnimation></FoodAnimation>
-  if (isError) return <div className="text-center text-red-500">Error loading donations</div>;
+  const { data: favorites = [] } = useQuery({
+    queryKey: ["favorites", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/favorites/${user.email}`);
+      return res.data;
+    },
+  });
+
+  const favoriteMutation = useMutation({
+    mutationFn: async (donationId) => {
+      await axiosSecure.post("/favorites", {
+        donationId,
+        userEmail: user.email,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Added to favorites!");
+      queryClient.invalidateQueries(["favorites", user.email]);
+    },
+    onError: () => toast.error("Failed to add to favorites."),
+  });
+
+  const isFavorited = (donationId) => {
+    return favorites?.some((fav) => fav.donationId === donationId);
+  };
+
+  if (isLoading) return <FoodAnimation />;
+  if (isError)
+    return (
+      <div className="text-center text-red-500">Error loading donations</div>
+    );
 
   const visibleDonations = showAll ? donations : donations.slice(0, 8);
 
@@ -45,7 +80,8 @@ const AllDonations = () => {
             Featured Donations
           </h2>
           <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
-            Discover fresh surplus food from local restaurants ready for pickup by registered charities.
+            Discover fresh surplus food from local restaurants ready for pickup
+            by registered charities.
           </p>
         </div>
 
@@ -53,17 +89,38 @@ const AllDonations = () => {
           {visibleDonations.map((item) => (
             <div
               key={item._id}
-              className="bg-base-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+              className="bg-base-200 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 relative"
             >
               <div className="relative">
                 <img
-                  src={item.imageUrl || 'https://via.placeholder.com/300'}
+                  src={item.imageUrl || "https://via.placeholder.com/300"}
                   alt={item.title}
                   className="w-full h-48 object-cover"
                 />
-                <span className={`absolute top-3 right-3 ${getStatusClass(item.status)}`}>
+                <span
+                  className={`absolute top-3 right-3 ${getStatusClass(
+                    item.status
+                  )}`}
+                >
                   {item.status}
                 </span>
+
+                {/* ❤️ Favorite Button */}
+                <button
+                  onClick={() => favoriteMutation.mutate(item._id)}
+                  className="absolute top-3 left-3 bg-white rounded-full p-2 shadow hover:bg-pink-100 transition"
+                  title={
+                    isFavorited(item._id)
+                      ? "Already in Favorites"
+                      : "Add to Favorites"
+                  }
+                >
+                  {isFavorited(item._id) ? (
+                    <FaHeart className="text-pink-600 text-lg" />
+                  ) : (
+                    <FaHeart className="text-gray-400 text-lg" />
+                  )}
+                </button>
               </div>
 
               <div className="p-4 space-y-3">
@@ -77,7 +134,9 @@ const AllDonations = () => {
                 </div>
 
                 <div>
-                  <div className="font-medium text-base-content">{item.restaurantName}</div>
+                  <div className="font-medium text-base-content">
+                    {item.restaurantName}
+                  </div>
                   <div className="flex items-center text-sm text-base-content/70">
                     <MapPin className="h-4 w-4 mr-1" />
                     {item.location}
@@ -85,16 +144,23 @@ const AllDonations = () => {
                 </div>
 
                 <div className="flex justify-between items-center text-sm">
-                  <span className="font-semibold text-base-content">{item.quantity}</span>
+                  <span className="font-semibold text-base-content">
+                    {item.quantity}
+                  </span>
                   <div className="flex items-center text-warning">
                     <Clock className="h-4 w-4 mr-1" />
-                    {new Date(item.pickupTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {new Date(item.pickupTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </div>
                 </div>
 
                 <Link
                   to={`/donation/${item._id}`}
-                  className={`btn w-full ${item.status === 'Available' ? 'btn-accent' : 'btn-outline'}`}
+                  className={`btn w-full ${
+                    item.status === "Available" ? "btn-accent" : "btn-outline"
+                  }`}
                 >
                   View Details
                 </Link>

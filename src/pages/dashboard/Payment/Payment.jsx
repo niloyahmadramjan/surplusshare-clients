@@ -1,26 +1,38 @@
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import PaymentCard from "./PaymentCard";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import FoodAnimation from "../../LoadingAnimation/FoodLoading";
 
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
 const Payment = ({ formData, onSuccess }) => {
   const axiosSecure = useAxiosSecure();
   const [clientSecret, setClientSecret] = useState("");
-  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      const res = await axiosSecure.post("/create-payment-intent", { amount: 25 });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      setClientSecret(data.clientSecret);
+    },
+    onError: () => {
+      setClientSecret("");
+    },
+  });
 
   useEffect(() => {
     if (formData?.organization) {
-      axiosSecure
-        .post("/create-payment-intent", { amount: 25 })
-        .then((res) => setClientSecret(res.data.clientSecret))
-        .catch(() => setClientSecret(""));
+      mutate();
     }
-  }, [formData, axiosSecure]);
+  }, [formData, mutate]);
 
-  if (!clientSecret) {
-    return <FoodAnimation></FoodAnimation>
+  if (!clientSecret || isPending) {
+    return <FoodAnimation />;
   }
 
   return (

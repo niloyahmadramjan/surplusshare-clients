@@ -16,7 +16,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import FoodAnimation from "../pages/LoadingAnimation/FoodLoading";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -24,7 +23,7 @@ const DashboardLayout = () => {
 
   const {
     data: userData,
-    isLoading,
+    
     isError,
   } = useQuery({
     queryKey: ["user-role", user?.email],
@@ -36,8 +35,6 @@ const DashboardLayout = () => {
   });
 
 
-
-  if (isLoading) return <FoodAnimation />;
   if (isError)
     return (
       <p className="text-center text-red-500">Failed to fetch user data.</p>
@@ -284,6 +281,9 @@ const DashboardLayout = () => {
         <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
         <div className="menu p-4 w-64 min-h-full bg-base-200">
           <h2 className="text-xl font-bold mb-4">Dashboard</h2>
+           <Link to="/dashboard" className="btn btn-ghost justify-start">
+            <FaHome /> Dashboard
+          </Link>
           {renderLinks()}
           <Link to="/" className="btn btn-ghost justify-start">
             <FaHome /> Home

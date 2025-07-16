@@ -47,14 +47,14 @@ const TransactionHistory = () => {
                 <td>
                   <span
                     className={`badge ${
-                      tx.status === "Approved"
+                      tx.transaction_status === "Approved"
                         ? "badge-success"
-                        : tx.status === "Rejected"
+                        : tx.transaction_status === "Rejected"
                         ? "badge-error"
                         : "badge-warning"
                     }`}
                   >
-                    {tx.status}
+                    {tx.transaction_status}
                   </span>
                 </td>
               </tr>
