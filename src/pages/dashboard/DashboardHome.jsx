@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import CharityDashboard from "./charity/CharityDashboard";
+import RestaurantDashboard from "./restaurant/RestaurantDashboard";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ const DashboardHome = () => {
     <div>
       {role === "user" && <UserDashboardHome></UserDashboardHome>}
       {role=== "charity" && <CharityDashboard></CharityDashboard>}
+      {role === "restaurant" && <RestaurantDashboard></RestaurantDashboard>}
     </div>
   );
 };
