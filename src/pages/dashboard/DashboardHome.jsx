@@ -5,6 +5,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import CharityDashboard from "./charity/CharityDashboard";
 import RestaurantDashboard from "./restaurant/RestaurantDashboard";
+import AdminDashboard from "./admin/AdminDashboard";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -35,6 +36,7 @@ const DashboardHome = () => {
       {role === "user" && <UserDashboardHome></UserDashboardHome>}
       {role=== "charity" && <CharityDashboard></CharityDashboard>}
       {role === "restaurant" && <RestaurantDashboard></RestaurantDashboard>}
+      {role === "admin" && <AdminDashboard></AdminDashboard>}
     </div>
   );
 };

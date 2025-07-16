@@ -50,6 +50,7 @@ import RestaurantRoute from "./restaurantRoute";
 // Unauthorized Page
 import Unauthorized from "../pages/Unauthorized";
 import LogOut from "../pages/Authsigninup/LogOut";
+import NotFound from "../pages/ErrorPage/NotFound";
 
 // Route Configuration
 export const router = createBrowserRouter([
@@ -272,8 +273,9 @@ export const router = createBrowserRouter([
     path: "/unauthorized",
     element: <Unauthorized />,
   },
+  { path: "*", Component: NotFound },
   {
     path: "/logout",
-    element: <LogOut></LogOut>
-  }
+    element: <LogOut></LogOut>,
+  },
 ]);
