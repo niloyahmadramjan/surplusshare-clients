@@ -24,10 +24,12 @@ const getStatusClass = (status) => {
 };
 
 const AllDonations = () => {
- const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [showAll, setShowAll] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [sortType, setSortType] = useState("");
 
   const { data: donations = [], isLoading, isError } = useQuery({
     queryKey: ["donations"],
@@ -70,10 +72,27 @@ const AllDonations = () => {
       <div className="text-center text-red-500">Error loading donations</div>
     );
 
-  const visibleDonations = showAll ? donations : donations.slice(0, 8);
+  // 🔍 Filter + Sort
+  let sortedDonations = [...donations];
+
+  if (sortType === "quantity-asc") {
+    sortedDonations.sort((a, b) => parseInt(a.quantity) - parseInt(b.quantity));
+  } else if (sortType === "quantity-desc") {
+    sortedDonations.sort((a, b) => parseInt(b.quantity) - parseInt(a.quantity));
+  } else if (sortType === "pickup-new") {
+    sortedDonations.sort((a, b) => new Date(b.pickupTime) - new Date(a.pickupTime));
+  } else if (sortType === "pickup-old") {
+    sortedDonations.sort((a, b) => new Date(a.pickupTime) - new Date(b.pickupTime));
+  }
+
+  const filteredDonations = sortedDonations.filter((item) =>
+    item.location.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const visibleDonations = showAll ? filteredDonations : filteredDonations.slice(0, 8);
 
   return (
-    <section className="py-12">
+    <section className="my-8">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">
@@ -83,6 +102,28 @@ const AllDonations = () => {
             Discover fresh surplus food from local restaurants ready for pickup
             by registered charities.
           </p>
+        </div>
+
+        {/* 🔍 Search & Sort */}
+        <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="Search by location..."
+            className="input input-bordered w-full md:max-w-sm"
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+
+          <select
+            className="select select-bordered w-full md:max-w-xs"
+            value={sortType}
+            onChange={(e) => setSortType(e.target.value)}
+          >
+            <option value="">Sort By</option>
+            <option value="quantity-asc">Quantity: Low to High</option>
+            <option value="quantity-desc">Quantity: High to Low</option>
+            <option value="pickup-new">Pickup Time: Newest First</option>
+            <option value="pickup-old">Pickup Time: Oldest First</option>
+          </select>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -105,7 +146,6 @@ const AllDonations = () => {
                   {item.status}
                 </span>
 
-                {/* ❤️ Favorite Button */}
                 <button
                   onClick={() => favoriteMutation.mutate(item._id)}
                   className="absolute cursor-pointer top-3 left-3 bg-white rounded-full p-2 shadow hover:bg-pink-100 transition"

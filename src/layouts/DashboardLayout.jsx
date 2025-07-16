@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import {
   FaHome,
   FaUser,
@@ -23,7 +23,6 @@ const DashboardLayout = () => {
 
   const {
     data: userData,
-    
     isError,
   } = useQuery({
     queryKey: ["user-role", user?.email],
@@ -34,7 +33,6 @@ const DashboardLayout = () => {
     },
   });
 
-
   if (isError)
     return (
       <p className="text-center text-red-500">Failed to fetch user data.</p>
@@ -42,206 +40,95 @@ const DashboardLayout = () => {
 
   const role = userData?.role || "user";
 
+  const navItemClass = ({ isActive }) =>
+    `btn btn-ghost justify-start group ${isActive ? "bg-primary font-semibold" : ""}`;
+
   const renderLinks = () => {
     switch (role) {
       case "admin":
         return (
           <>
-            <Link
-              to="admin-profile"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaUserShield /> Admin Profile
-            </Link>
-            <Link
-              to="manage-donations"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> Manage Donations
-            </Link>
-            <Link
-              to="manage-users"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaUser /> Manage Users
-            </Link>
-            <Link
-              to="manage-roles"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> Manage Role Requests
-            </Link>
-            <Link
-              to="manage-requests"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> Manage Requests
-            </Link>
-            <Link
-              to="feature-donations"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaStar /> Feature Donations
-            </Link>
+            <NavLink to="admin-profile" className={navItemClass}>
+              <FaUserShield className="text-cyan-600 group-hover:text-white" /> Admin Profile
+            </NavLink>
+            <NavLink to="manage-donations" className={navItemClass}>
+              <FaClipboardList className="text-blue-600 group-hover:text-white" /> Manage Donations
+            </NavLink>
+            <NavLink to="manage-users" className={navItemClass}>
+              <FaUser className="text-purple-600 group-hover:text-white" /> Manage Users
+            </NavLink>
+            <NavLink to="manage-roles" className={navItemClass}>
+              <FaClipboardList className="text-yellow-600 group-hover:text-white" /> Manage Role Requests
+            </NavLink>
+            <NavLink to="manage-requests" className={navItemClass}>
+              <FaClipboardList className="text-green-600 group-hover:text-white" /> Manage Requests
+            </NavLink>
+            <NavLink to="feature-donations" className={navItemClass}>
+              <FaStar className="text-orange-500 group-hover:text-white" /> Feature Donations
+            </NavLink>
           </>
         );
       case "restaurant":
         return (
           <>
-            <Link
-              to="restaurant-profile"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaUserShield /> Restaurant Profile
-            </Link>
-            <Link
-              to="add-donation"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaPlusCircle /> Add Donation
-            </Link>
-            <Link
-              to="my-donations"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> My Donations
-            </Link>
-            <Link
-              to="requested-donations"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> Requested Donations
-            </Link>
+            <NavLink to="restaurant-profile" className={navItemClass}>
+              <FaUserShield className="text-cyan-600 group-hover:text-white" /> Restaurant Profile
+            </NavLink>
+            <NavLink to="add-donation" className={navItemClass}>
+              <FaPlusCircle className="text-rose-600 group-hover:text-white" /> Add Donation
+            </NavLink>
+            <NavLink to="my-donations" className={navItemClass}>
+              <FaClipboardList className="text-violet-600 group-hover:text-white" /> My Donations
+            </NavLink>
+            <NavLink to="requested-donations" className={navItemClass}>
+              <FaClipboardList className="text-amber-600 group-hover:text-white" /> Requested Donations
+            </NavLink>
+            <NavLink to="restaurant-statistics" className={navItemClass}>
+              <FaClipboardList className="text-lime-600 group-hover:text-white" /> Restaurant Statistics
+            </NavLink>
           </>
         );
       case "charity":
         return (
           <>
-            <Link
-              to="charity-profile"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaUser /> Charity Profile
-            </Link>
-            <Link
-              to="my-requests"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> My Requests
-            </Link>
-            <Link
-              to="my-pickups"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> My Pickups
-            </Link>
-            <Link
-              to="received-donations"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaHeart /> Received Donations
-            </Link>
-            <Link
-              to="transactions-history"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaHistory /> Transaction History
-            </Link>
+            <NavLink to="charity-profile" className={navItemClass}>
+              <FaUser className="text-teal-600 group-hover:text-white" /> Charity Profile
+            </NavLink>
+            <NavLink to="my-requests" className={navItemClass}>
+              <FaClipboardList className="text-rose-600 group-hover:text-white" /> My Requests
+            </NavLink>
+            <NavLink to="my-pickups" className={navItemClass}>
+              <FaClipboardList className="text-emerald-600 group-hover:text-white" /> My Pickups
+            </NavLink>
+            <NavLink to="received-donations" className={navItemClass}>
+              <FaHeart className="text-pink-600 group-hover:text-white" /> Received Donations
+            </NavLink>
+            <NavLink to="favorites" className={navItemClass}>
+              <FaHeart className="text-pink-400 group-hover:text-white" /> Favorites
+            </NavLink>
+            <NavLink to="transactions-history" className={navItemClass}>
+              <FaHistory className="text-yellow-500 group-hover:text-white" /> Transaction History
+            </NavLink>
           </>
         );
       default:
         return (
           <>
-            <Link
-              to="my-profile"
-              className="btn btn-ghost justify-start "
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaUser /> My Profile
-            </Link>
-            <Link
-              to="request-charity-role"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaHandsHelping /> Request Charity Role
-            </Link>
-            <Link
-              to="favorites"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaHeart /> Favorites
-            </Link>
-            <Link
-              to="my-reviews"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaClipboardList /> My Reviews
-            </Link>
-            <Link
-              to="transactions-history"
-              className="btn btn-ghost justify-start"
-              onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              }
-            >
-              <FaHistory /> Transaction History
-            </Link>
+            <NavLink to="my-profile" className={navItemClass}>
+              <FaUser className="text-indigo-500 group-hover:text-white" /> My Profile
+            </NavLink>
+            <NavLink to="request-charity-role" className={navItemClass}>
+              <FaHandsHelping className="text-amber-600 group-hover:text-white" /> Request Charity Role
+            </NavLink>
+            <NavLink to="favorites" className={navItemClass}>
+              <FaHeart className="text-pink-400 group-hover:text-white" /> Favorites
+            </NavLink>
+            <NavLink to="my-reviews" className={navItemClass}>
+              <FaClipboardList className="text-green-500 group-hover:text-white" /> My Reviews
+            </NavLink>
+            <NavLink to="transactions-history" className={navItemClass}>
+              <FaHistory className="text-yellow-500 group-hover:text-white" /> Transaction History
+            </NavLink>
           </>
         );
     }
@@ -253,7 +140,7 @@ const DashboardLayout = () => {
 
       {/* Main content area */}
       <div className="drawer-content flex flex-col w-full h-screen">
-        {/* Mobile navbar (only visible on small screen) */}
+        {/* Mobile navbar */}
         <div className="fixed top-0 left-0 right-0 z-40 bg-base-100/80 backdrop-blur-md shadow-md px-4 flex items-center justify-between h-16 lg:hidden">
           <label htmlFor="mobile-drawer" className="btn btn-ghost btn-circle">
             <FaBars className="text-xl" />
@@ -270,36 +157,32 @@ const DashboardLayout = () => {
           </div>
         </div>
 
-        {/* Main dashboard content here */}
+        {/* Content */}
         <div className="mt-20 md:mt-0 p-2 overflow-y-auto">
           <Outlet></Outlet>
         </div>
       </div>
 
-      {/* Sidebar / Drawer content */}
+      {/* Sidebar */}
       <div className="drawer-side z-50 top-[65px]">
         <label htmlFor="mobile-drawer" className="drawer"></label>
         <div className="menu p-4 w-58 min-h-full bg-base-200">
           <h2 className="text-xl font-bold mb-4">Dashboard</h2>
-           <Link to="/dashboard" onClick={() =>
-                (document.getElementById("mobile-drawer").checked = false)
-              } className="btn btn-ghost justify-start">
-            <FaHome /> Dashboard
-          </Link>
+
+        
+           <NavLink to="/dashboard" end  className={navItemClass}>
+              <FaHome className="text-cyan-600 group-hover:text-white" /> Dashboard
+            </NavLink>
+
           {renderLinks()}
-          <Link to="/" className="btn btn-ghost justify-start">
-            <FaHome /> Home
-          </Link>
-          <Link
-          to="/logout"
-            onClick={() => {
-             
-              document.getElementById("mobile-drawer").checked = false;
-            }}
-            className="btn btn-ghost justify-start"
-          >
-            <FaSignOutAlt /> Logout
-          </Link>
+
+          <NavLink to="/" className={navItemClass}>
+            <FaHome className="text-blue-600 group-hover:text-white" /> Home
+          </NavLink>
+
+          <NavLink to="/logout" className={navItemClass}>
+            <FaSignOutAlt className="text-red-600 group-hover:text-white" /> Logout
+          </NavLink>
         </div>
       </div>
     </div>

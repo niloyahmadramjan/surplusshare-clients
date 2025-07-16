@@ -51,6 +51,7 @@ import RestaurantRoute from "./restaurantRoute";
 import Unauthorized from "../pages/Unauthorized";
 import LogOut from "../pages/Authsigninup/LogOut";
 import NotFound from "../pages/ErrorPage/NotFound";
+import RestaurantStatistics from "../pages/dashboard/restaurant/RestaurantStatistics";
 
 // Route Configuration
 export const router = createBrowserRouter([
@@ -176,6 +177,14 @@ export const router = createBrowserRouter([
         element: (
           <RestaurantRoute>
             <RequestedDonations />
+          </RestaurantRoute>
+        ),
+      },
+      {
+        path: "restaurant-statistics",
+        element: (
+          <RestaurantRoute>
+            <RestaurantStatistics />
           </RestaurantRoute>
         ),
       },

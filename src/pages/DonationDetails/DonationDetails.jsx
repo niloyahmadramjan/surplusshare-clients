@@ -19,6 +19,17 @@ const DonationDetails = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
 
+  const { data: userData } = useQuery({
+    queryKey: ["user-role", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}`);
+      return res.data;
+    },
+  });
+
+  const role = userData?.role || "user";
+
   const {
     data: donation,
     isLoading,
@@ -153,7 +164,7 @@ const DonationDetails = () => {
           <Heart className="w-4 h-4 mr-2" /> Save to Favorites
         </button>
 
-        {user?.role === "charity" && (
+        {role === "charity" && (
           <button
             disabled={hasRequested}
             className="btn btn-secondary w-full md:w-1/2 disabled:opacity-50"
