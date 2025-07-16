@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet, useNavigate } from "react-router";
+import { Link, Outlet } from "react-router";
 import {
   FaHome,
   FaUser,
@@ -19,9 +19,8 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import FoodAnimation from "../pages/LoadingAnimation/FoodLoading";
 
 const DashboardLayout = () => {
-  const { user, handleLogOut } = useAuth();
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const navigate = useNavigate();
 
   const {
     data: userData,
@@ -36,10 +35,7 @@ const DashboardLayout = () => {
     },
   });
 
-  const handleUserLogOut = () => {
-    navigate("/");
-    handleLogOut();
-  };
+
 
   if (isLoading) return <FoodAnimation />;
   if (isError)
@@ -256,55 +252,55 @@ const DashboardLayout = () => {
 
   return (
     <div className="drawer drawer-start lg:drawer-open">
-  <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
+      <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
 
-  {/* Main content area */}
-  <div className="drawer-content flex flex-col w-full h-screen">
-    {/* Mobile navbar (only visible on small screen) */}
-    <div className="fixed top-0 left-0 right-0 z-40 bg-base-100/80 backdrop-blur-md shadow-md px-4 flex items-center justify-between h-16 lg:hidden">
-      <label htmlFor="mobile-drawer" className="btn btn-ghost btn-circle">
-        <FaBars className="text-xl" />
-      </label>
-      <div className="flex items-center gap-2 overflow-hidden">
-        <span className="font-medium text-sm truncate max-w-[100px]">
-          {user?.displayName || "User"}
-        </span>
-        <img
-          src={user?.photoURL}
-          alt="User"
-          className="w-8 h-8 rounded-full object-cover"
-        />
+      {/* Main content area */}
+      <div className="drawer-content flex flex-col w-full h-screen">
+        {/* Mobile navbar (only visible on small screen) */}
+        <div className="fixed top-0 left-0 right-0 z-40 bg-base-100/80 backdrop-blur-md shadow-md px-4 flex items-center justify-between h-16 lg:hidden">
+          <label htmlFor="mobile-drawer" className="btn btn-ghost btn-circle">
+            <FaBars className="text-xl" />
+          </label>
+          <div className="flex items-center gap-2 overflow-hidden">
+            <span className="font-medium text-sm truncate max-w-[100px]">
+              {user?.displayName || "User"}
+            </span>
+            <img
+              src={user?.photoURL}
+              alt="User"
+              className="w-8 h-8 rounded-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Main dashboard content here */}
+        <div className="mt-20 md:mt-0 p-2 overflow-y-auto">
+          <Outlet></Outlet>
+        </div>
+      </div>
+
+      {/* Sidebar / Drawer content */}
+      <div className="drawer-side z-50">
+        <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
+        <div className="menu p-4 w-64 min-h-full bg-base-200">
+          <h2 className="text-xl font-bold mb-4">Dashboard</h2>
+          {renderLinks()}
+          <Link to="/" className="btn btn-ghost justify-start">
+            <FaHome /> Home
+          </Link>
+          <Link
+          to="/logout"
+            onClick={() => {
+             
+              document.getElementById("mobile-drawer").checked = false;
+            }}
+            className="btn btn-ghost justify-start"
+          >
+            <FaSignOutAlt /> Logout
+          </Link>
+        </div>
       </div>
     </div>
-
-    {/* Main dashboard content here */}
-    <div className="mt-20 md:mt-0 p-2 overflow-y-auto">
-      <Outlet></Outlet>
-    </div>
-  </div>
-
-  {/* Sidebar / Drawer content */}
-  <div className="drawer-side z-50">
-    <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
-    <div className="menu p-4 w-64 min-h-full bg-base-200">
-      <h2 className="text-xl font-bold mb-4">Dashboard</h2>
-      {renderLinks()}
-      <Link to="/" className="btn btn-ghost justify-start">
-        <FaHome /> Home
-      </Link>
-      <button
-        onClick={() => {
-          handleUserLogOut();
-          document.getElementById("mobile-drawer").checked = false;
-        }}
-        className="btn btn-ghost justify-start"
-      >
-        <FaSignOutAlt /> Logout
-      </button>
-    </div>
-  </div>
-</div>
-
   );
 };
 

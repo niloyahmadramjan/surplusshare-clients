@@ -49,7 +49,7 @@ const DonationDetails = () => {
         donationId: id,
         description,
         pickupTime,
-        donation_title : null,
+        donation_title: null,
       });
     },
     onSuccess: () => toast.success("Request submitted!"),
@@ -156,21 +156,27 @@ const DonationDetails = () => {
             <input
               type="text"
               readOnly
-              value={donation.title}
+              value={user?.displayName || "unknown"}
               className="input input-bordered w-full"
             />
             <input
               type="text"
               readOnly
-              value={donation.restaurantName}
+              value={user.email || "unknown"}
               className="input input-bordered w-full"
             />
-            <input
+            {/* <input
               type="text"
               placeholder="Pickup Time (e.g. 2025-07-10 16:00)"
               required
               className="input input-bordered w-full"
+            
+            /> */}
+            <input
+              type="datetime-local"
               onChange={(e) => setPickupTime(e.target.value)}
+              min={new Date().toISOString().slice(0, 16)}
+              className="input input-bordered w-full hover:border-blue-500"
             />
             <textarea
               className="textarea textarea-bordered w-full"

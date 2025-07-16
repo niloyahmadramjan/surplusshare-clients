@@ -49,6 +49,7 @@ import RestaurantRoute from "./restaurantRoute";
 
 // Unauthorized Page
 import Unauthorized from "../pages/Unauthorized";
+import LogOut from "../pages/Authsigninup/LogOut";
 
 // Route Configuration
 export const router = createBrowserRouter([
@@ -77,9 +78,9 @@ export const router = createBrowserRouter([
       {
         path: "donation/:id",
         element: (
-          <PrivateRoute>
+          <CharityRoute>
             <DonationDetails />
-          </PrivateRoute>
+          </CharityRoute>
         ),
       },
     ],
@@ -271,4 +272,8 @@ export const router = createBrowserRouter([
     path: "/unauthorized",
     element: <Unauthorized />,
   },
+  {
+    path: "/logout",
+    element: <LogOut></LogOut>
+  }
 ]);
