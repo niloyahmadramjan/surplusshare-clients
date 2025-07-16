@@ -12,7 +12,6 @@ const DonationDetails = () => {
   const axiosSecure = useAxiosSecure();
   const [pickupTime, setPickupTime] = useState("");
   const [description, setDescription] = useState("");
-  const [reviewer, setReviewer] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(5);
   const [hasRequested, setHasRequested] = useState(false);
@@ -89,24 +88,25 @@ const DonationDetails = () => {
   });
 
   const reviewMutation = useMutation({
-    mutationFn: async () => {
-      await axiosSecure.post(`/donations/${id}/reviews`, {
-        reviewerInfo: {
-          name: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-        },
-        reviewerName: reviewer,
-        description: reviewText,
-        rating: rating,
-      });
-    },
-    onSuccess: () => {
-      toast.success("Review submitted!");
-      queryClient.invalidateQueries(["donation", id]);
-    },
-    onError: () => toast.error("Failed to submit review."),
-  });
+  mutationFn: async () => {
+    await axiosSecure.post(`/donations/${id}/reviews`, {
+      reviewerInfo: {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      },
+      reviewerName: user.displayName, 
+      description: reviewText,
+      rating: rating,
+    });
+  },
+  onSuccess: () => {
+    toast.success("Review submitted!");
+    queryClient.invalidateQueries(["donation", id]);
+  },
+  onError: () => toast.error("Failed to submit review."),
+});
+
 
   const { data: reviews = [] } = useQuery({
     queryKey: ["donation-reviews", id],

@@ -48,22 +48,34 @@ const DashboardLayout = () => {
       case "admin":
         return (
           <>
-            <NavLink to="admin-profile" className={navItemClass}>
+            <NavLink to="admin-profile" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaUserShield className="text-cyan-600 group-hover:text-white" /> Admin Profile
             </NavLink>
-            <NavLink to="manage-donations" className={navItemClass}>
+            <NavLink to="manage-donations" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-blue-600 group-hover:text-white" /> Manage Donations
             </NavLink>
-            <NavLink to="manage-users" className={navItemClass}>
+            <NavLink to="manage-users" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaUser className="text-purple-600 group-hover:text-white" /> Manage Users
             </NavLink>
-            <NavLink to="manage-roles" className={navItemClass}>
+            <NavLink to="manage-roles" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-yellow-600 group-hover:text-white" /> Manage Role Requests
             </NavLink>
-            <NavLink to="manage-requests" className={navItemClass}>
+            <NavLink to="manage-requests" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-green-600 group-hover:text-white" /> Manage Requests
             </NavLink>
-            <NavLink to="feature-donations" className={navItemClass}>
+            <NavLink to="feature-donations" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaStar className="text-orange-500 group-hover:text-white" /> Feature Donations
             </NavLink>
           </>
@@ -71,19 +83,29 @@ const DashboardLayout = () => {
       case "restaurant":
         return (
           <>
-            <NavLink to="restaurant-profile" className={navItemClass}>
+            <NavLink to="restaurant-profile" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaUserShield className="text-cyan-600 group-hover:text-white" /> Restaurant Profile
             </NavLink>
-            <NavLink to="add-donation" className={navItemClass}>
+            <NavLink to="add-donation" className={navItemClass} onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaPlusCircle className="text-rose-600 group-hover:text-white" /> Add Donation
             </NavLink>
-            <NavLink to="my-donations" className={navItemClass}>
+            <NavLink to="my-donations" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-violet-600 group-hover:text-white" /> My Donations
             </NavLink>
-            <NavLink to="requested-donations" className={navItemClass}>
+            <NavLink to="requested-donations" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-amber-600 group-hover:text-white" /> Requested Donations
             </NavLink>
-            <NavLink to="restaurant-statistics" className={navItemClass}>
+            <NavLink to="restaurant-statistics" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-lime-600 group-hover:text-white" /> Restaurant Statistics
             </NavLink>
           </>
@@ -91,22 +113,34 @@ const DashboardLayout = () => {
       case "charity":
         return (
           <>
-            <NavLink to="charity-profile" className={navItemClass}>
+            <NavLink to="charity-profile" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaUser className="text-teal-600 group-hover:text-white" /> Charity Profile
             </NavLink>
-            <NavLink to="my-requests" className={navItemClass}>
+            <NavLink to="my-requests" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-rose-600 group-hover:text-white" /> My Requests
             </NavLink>
-            <NavLink to="my-pickups" className={navItemClass}>
+            <NavLink to="my-pickups" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-emerald-600 group-hover:text-white" /> My Pickups
             </NavLink>
-            <NavLink to="received-donations" className={navItemClass}>
+            <NavLink to="received-donations" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaHeart className="text-pink-600 group-hover:text-white" /> Received Donations
             </NavLink>
-            <NavLink to="favorites" className={navItemClass}>
+            <NavLink to="favorites" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaHeart className="text-pink-400 group-hover:text-white" /> Favorites
             </NavLink>
-            <NavLink to="transactions-history" className={navItemClass}>
+            <NavLink to="transactions-history" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaHistory className="text-yellow-500 group-hover:text-white" /> Transaction History
             </NavLink>
           </>
@@ -114,19 +148,29 @@ const DashboardLayout = () => {
       default:
         return (
           <>
-            <NavLink to="my-profile" className={navItemClass}>
+            <NavLink to="my-profile" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaUser className="text-indigo-500 group-hover:text-white" /> My Profile
             </NavLink>
-            <NavLink to="request-charity-role" className={navItemClass}>
+            <NavLink to="request-charity-role" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaHandsHelping className="text-amber-600 group-hover:text-white" /> Request Charity Role
             </NavLink>
-            <NavLink to="favorites" className={navItemClass}>
+            <NavLink to="favorites" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaHeart className="text-pink-400 group-hover:text-white" /> Favorites
             </NavLink>
-            <NavLink to="my-reviews" className={navItemClass}>
+            <NavLink to="my-reviews" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaClipboardList className="text-green-500 group-hover:text-white" /> My Reviews
             </NavLink>
-            <NavLink to="transactions-history" className={navItemClass}>
+            <NavLink to="transactions-history" className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaHistory className="text-yellow-500 group-hover:text-white" /> Transaction History
             </NavLink>
           </>
@@ -166,17 +210,19 @@ const DashboardLayout = () => {
       {/* Sidebar */}
       <div className="drawer-side z-50 top-[65px]">
         <label htmlFor="mobile-drawer" className="drawer"></label>
-        <div className="menu p-4 w-58 min-h-full bg-base-200">
+        <div className="menu p-4 w-62 min-h-full bg-base-200">
           <h2 className="text-xl font-bold mb-4">Dashboard</h2>
 
         
-           <NavLink to="/dashboard" end  className={navItemClass}>
+           <NavLink to="/dashboard" end  className={navItemClass}  onClick={() => {
+              document.getElementById("mobile-drawer").checked = false;
+            }}>
               <FaHome className="text-cyan-600 group-hover:text-white" /> Dashboard
             </NavLink>
 
           {renderLinks()}
 
-          <NavLink to="/" className={navItemClass}>
+          <NavLink to="/" className={navItemClass} >
             <FaHome className="text-blue-600 group-hover:text-white" /> Home
           </NavLink>
 

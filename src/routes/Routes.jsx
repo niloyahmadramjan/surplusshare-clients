@@ -80,9 +80,9 @@ export const router = createBrowserRouter([
       {
         path: "donation/:id",
         element: (
-          <CharityRoute>
+          <PrivateRoute>
             <DonationDetails />
-          </CharityRoute>
+          </PrivateRoute>
         ),
       },
     ],
