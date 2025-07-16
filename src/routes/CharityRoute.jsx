@@ -38,7 +38,7 @@ const CharityRoute = ({ children }) => {
   queryClient.invalidateQueries(['user-role'])
 
   // Allow only if role === 'charity'
-  if (userData?.role === "charity") {
+  if (userData?.role === "charity" || userData?.role === "admin") {
     return children;
   }
 

@@ -108,7 +108,7 @@ const AllDonations = () => {
                 {/* ❤️ Favorite Button */}
                 <button
                   onClick={() => favoriteMutation.mutate(item._id)}
-                  className="absolute top-3 left-3 bg-white rounded-full p-2 shadow hover:bg-pink-100 transition"
+                  className="absolute cursor-pointer top-3 left-3 bg-white rounded-full p-2 shadow hover:bg-pink-100 transition"
                   title={
                     isFavorited(item._id)
                       ? "Already in Favorites"

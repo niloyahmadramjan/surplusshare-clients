@@ -3,6 +3,7 @@ import UserDashboardHome from "./user/UserDashboardHome";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import CharityDashboard from "./charity/CharityDashboard";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -29,7 +30,10 @@ const DashboardHome = () => {
   const role = userData?.role || "user";
 
   return (
-    <div>{role === "user" && <UserDashboardHome></UserDashboardHome>}</div>
+    <div>
+      {role === "user" && <UserDashboardHome></UserDashboardHome>}
+      {role=== "charity" && <CharityDashboard></CharityDashboard>}
+    </div>
   );
 };
 

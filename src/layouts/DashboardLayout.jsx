@@ -277,11 +277,13 @@ const DashboardLayout = () => {
       </div>
 
       {/* Sidebar / Drawer content */}
-      <div className="drawer-side z-50">
-        <label htmlFor="mobile-drawer" className="drawer-overlay"></label>
-        <div className="menu p-4 w-64 min-h-full bg-base-200">
+      <div className="drawer-side z-50 top-[65px]">
+        <label htmlFor="mobile-drawer" className="drawer"></label>
+        <div className="menu p-4 w-58 min-h-full bg-base-200">
           <h2 className="text-xl font-bold mb-4">Dashboard</h2>
-           <Link to="/dashboard" className="btn btn-ghost justify-start">
+           <Link to="/dashboard" onClick={() =>
+                (document.getElementById("mobile-drawer").checked = false)
+              } className="btn btn-ghost justify-start">
             <FaHome /> Dashboard
           </Link>
           {renderLinks()}

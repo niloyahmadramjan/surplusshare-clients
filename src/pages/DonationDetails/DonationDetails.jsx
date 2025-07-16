@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Clock, MapPin, User, Heart, ShoppingBag, Star } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import FoodAnimation from "../LoadingAnimation/FoodLoading";
@@ -15,6 +15,7 @@ const DonationDetails = () => {
   const [reviewer, setReviewer] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(5);
+  const [hasRequested, setHasRequested] = useState(false);
   const queryClient = useQueryClient();
   const { user } = useAuth();
 
@@ -29,6 +30,22 @@ const DonationDetails = () => {
       return res.data;
     },
   });
+
+  const { data: userRequests = [] } = useQuery({
+    queryKey: ["user-requests", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/donation-requests/by-charity/${user.email}`);
+      return res.data;
+    },
+  });
+
+  useEffect(() => {
+    if (userRequests.length) {
+      const alreadyRequested = userRequests.some(req => req.donationId === id);
+      setHasRequested(alreadyRequested);
+    }
+  }, [userRequests, id]);
 
   const favoriteMutation = useMutation({
     mutationFn: async () => {
@@ -125,12 +142,16 @@ const DonationDetails = () => {
           <Heart className="w-4 h-4 mr-2" /> Save to Favorites
         </button>
 
-        <button
-          className="btn btn-secondary w-full"
-          onClick={() => document.getElementById("request_modal").showModal()}
-        >
-          <ShoppingBag className="w-4 h-4 mr-2" /> Request Pickup
-        </button>
+        {user?.role !== "user" && (
+          <button
+            disabled={hasRequested}
+            className="btn btn-secondary w-full disabled:opacity-60"
+            onClick={() => document.getElementById("request_modal").showModal()}
+          >
+            <ShoppingBag className="w-4 h-4 mr-2" />
+            {hasRequested ? "Already Requested" : "Request Pickup"}
+          </button>
+        )}
       </div>
 
       <div className="text-center mt-6">
@@ -165,13 +186,6 @@ const DonationDetails = () => {
               value={user.email || "unknown"}
               className="input input-bordered w-full"
             />
-            {/* <input
-              type="text"
-              placeholder="Pickup Time (e.g. 2025-07-10 16:00)"
-              required
-              className="input input-bordered w-full"
-            
-            /> */}
             <input
               type="datetime-local"
               onChange={(e) => setPickupTime(e.target.value)}
