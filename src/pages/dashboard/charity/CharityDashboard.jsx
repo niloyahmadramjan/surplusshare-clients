@@ -21,7 +21,7 @@ const CharityDashboard = () => {
       enabled: !!user?.email,
       queryFn: async () => {
         const res = await axiosSecure.get(`/charity-requests/user/${user.email}`);
-        console.log(res.data)
+        // console.log(res.data)
         return res.data;
         
       },
@@ -105,7 +105,7 @@ const CharityDashboard = () => {
     });
   };
 
-  console.log(charity)
+  // console.log(charity)
   if (isLoading) {
     return <FoodAnimation></FoodAnimation>;
   }

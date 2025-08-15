@@ -32,7 +32,7 @@ const FeaturedDonations = () => {
     }
   };
 
-  console.log(latestDonations);
+  // console.log(latestDonations);
 
   if (isLoading) return <FoodAnimation />;
 

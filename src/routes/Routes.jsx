@@ -45,13 +45,13 @@ import FeatureDonations from "../pages/dashboard/admin/FeatureDonations";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import CharityRoute from "./CharityRoute";
-import RestaurantRoute from "./restaurantRoute";
 
 // Unauthorized Page
 import Unauthorized from "../pages/Unauthorized";
 import LogOut from "../pages/Authsigninup/LogOut";
 import NotFound from "../pages/ErrorPage/NotFound";
 import RestaurantStatistics from "../pages/dashboard/restaurant/RestaurantStatistics";
+import RestaurantRoute from "./RestaurantRoute";
 
 // Route Configuration
 export const router = createBrowserRouter([

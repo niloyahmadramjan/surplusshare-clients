@@ -9,8 +9,11 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { firebaseErrorMessage } from "../../utils/firebaseErrorMessage";
 import { useState } from "react";
 import FoodAnimation from "../LoadingAnimation/FoodLoading";
+import useUserDeviceInfo from "../../hooks/userDeviceInfo";
 
 const Login = () => {
+  
+    const userDeviceData = useUserDeviceInfo()
   const {
     handleSignInEmailPass,
     handleGoogleLogin,
@@ -61,6 +64,7 @@ const Login = () => {
         email: user.email,
         photoURL: user.photoURL || "",
         role: "user",
+        userDeviceData
       };
 
       await axiosSecure.post("/users", userData);
@@ -98,9 +102,10 @@ const Login = () => {
         name: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
-        role: "user",
-         firebaseUID: user?.uid,
-      };
+        role: 'user',
+        firebaseUID: user?.uid,
+        userDeviceData,
+      }
 
       await axiosSecure.post("/users", userData);
 
@@ -137,9 +142,10 @@ const Login = () => {
         name: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
-        role: "user",
+        role: 'user',
         firebaseUID: user.uid,
-      };
+        userDeviceData,
+      }
 
       await axiosSecure.post("/users", userData);
 
