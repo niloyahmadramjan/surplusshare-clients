@@ -1,40 +1,40 @@
-import { useQuery } from "@tanstack/react-query";
-import { MapPin, Clock } from "lucide-react";
-import { Link } from "react-router";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import FoodAnimation from "../LoadingAnimation/FoodLoading";
-import useAuth from "../../hooks/useAuth";
+import { useQuery } from '@tanstack/react-query'
+import { MapPin, Clock } from 'lucide-react'
+import { Link } from 'react-router'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
+import FoodAnimation from '../LoadingAnimation/FoodLoading'
+import useAuth from '../../hooks/useAuth'
 
 const FeaturedDonations = () => {
-  const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth()
+  const axiosSecure = useAxiosSecure()
 
   const { data: donations = [], isLoading } = useQuery({
-    queryKey: ["verified-donations"],
+    queryKey: ['verified-donations'],
     queryFn: async () => {
-      const res = await axiosSecure.get("/admin/verified-donations");
-      return res.data;
+      const res = await axiosSecure.get('/admin/verified-donations')
+      return res.data
     },
-  });
+  })
 
-  const latestDonations = donations.slice(0, 6);
+  const latestDonations = donations.slice(0, 6)
 
   const getStatusClass = (status) => {
     switch (status) {
-      case "Available":
-        return "badge badge-success";
-      case "Requested":
-        return "badge badge-warning";
-      case "Picked Up":
-        return "badge badge-neutral";
+      case 'Available':
+        return 'badge badge-success'
+      case 'Requested':
+        return 'badge badge-warning'
+      case 'Picked Up':
+        return 'badge badge-neutral'
       default:
-        return "badge badge-neutral";
+        return 'badge badge-neutral'
     }
-  };
+  }
 
   // console.log(latestDonations);
 
-  if (isLoading) return <FoodAnimation />;
+  if (isLoading) return <FoodAnimation />
 
   return (
     <section className="py-12">
@@ -99,16 +99,16 @@ const FeaturedDonations = () => {
                       </span>
                       <div className="flex items-center text-warning">
                         <Clock className="h-4 w-4 mr-1" />
-                        {item.pickupTime?.slice(11, 16) || "Time"}
+                        {item.pickupTime?.slice(11, 16) || 'Time'}
                       </div>
                     </div>
 
                     <Link
                       to={`/donation/${item._id}`}
                       className={`btn w-full ${
-                        item.status === "Available"
-                          ? "btn-accent"
-                          : "btn-outline"
+                        item.status === 'Available'
+                          ? 'btn-accent'
+                          : 'btn-outline'
                       }`}
                     >
                       View Details
@@ -138,7 +138,7 @@ const FeaturedDonations = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default FeaturedDonations;
+export default FeaturedDonations

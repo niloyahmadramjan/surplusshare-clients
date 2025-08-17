@@ -19,6 +19,7 @@ const MyPickups = () => {
       return res.data;
     },
   });
+  console.log(pickups)
 
   // ✅ Confirm pickup mutation
   const pickupMutation = useMutation({
